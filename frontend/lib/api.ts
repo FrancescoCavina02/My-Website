@@ -17,17 +17,45 @@ export interface NoteMetadata {
 export interface Note extends NoteMetadata {
     content: string;
     links: string[];
-    created_at: string;
+    navigation?: NavigationContext;
+}
+
+export interface NavigationContext {
+    breadcrumbs: { id: string; title: string; file_path: string }[];
+    siblings: { id: string; title: string }[];
+    children: { id: string; title: string }[];
+    parent?: { id: string; title: string };
+    is_leaf: boolean;
+    depth: number;
 }
 
 export interface NoteTree {
     id: string;
     title: string;
     file_path: string;
+    book?: string;
     is_root: boolean;
     is_leaf: boolean;
     depth: number;
+    children_count: number;
+    wiki_links: string[];
     children: NoteTree[];
+}
+
+export interface BookData {
+    note_count: number;
+    trees: NoteTree[];
+    has_tree: boolean;
+}
+
+export interface CategoryData {
+    note_count: number;
+    book_count: number;
+    books: Record<string, BookData>;
+}
+
+export interface VaultStructure {
+    [category: string]: CategoryData;
 }
 
 export interface Quote {
@@ -52,12 +80,21 @@ export interface NoteStats {
 }
 
 // API Functions
+
+export async function fetchVaultStructure(): Promise<VaultStructure> {
+    const response = await fetch(`${API_BASE_URL}/api/notes/structure`);
+    if (!response.ok) throw new Error("Failed to fetch vault structure");
+    return response.json();
+}
+
 export async function fetchNotes(
     category?: string,
+    book?: string,
     limit = 100
 ): Promise<NoteMetadata[]> {
     const params = new URLSearchParams();
     if (category) params.set("category", category);
+    if (book) params.set("book", book);
     params.set("limit", String(limit));
 
     const response = await fetch(`${API_BASE_URL}/api/notes?${params}`);
@@ -71,9 +108,14 @@ export async function fetchNote(noteId: string): Promise<Note> {
     return response.json();
 }
 
-export async function fetchNoteTree(): Promise<Record<string, NoteTree[]>> {
-    const response = await fetch(`${API_BASE_URL}/api/notes/tree`);
-    if (!response.ok) throw new Error("Failed to fetch note tree");
+export async function fetchBookTree(book: string): Promise<{
+    book: string;
+    has_tree: boolean;
+    tree?: NoteTree;
+    notes?: { id: string; title: string }[];
+}> {
+    const response = await fetch(`${API_BASE_URL}/api/notes/tree/${encodeURIComponent(book)}`);
+    if (!response.ok) throw new Error("Failed to fetch book tree");
     return response.json();
 }
 
@@ -96,6 +138,15 @@ export async function fetchNoteStats(): Promise<NoteStats> {
 export async function fetchCategories(): Promise<string[]> {
     const response = await fetch(`${API_BASE_URL}/api/notes/categories`);
     if (!response.ok) throw new Error("Failed to fetch categories");
+    return response.json();
+}
+
+export async function fetchBooks(category?: string): Promise<string[]> {
+    const params = new URLSearchParams();
+    if (category) params.set("category", category);
+
+    const response = await fetch(`${API_BASE_URL}/api/notes/books?${params}`);
+    if (!response.ok) throw new Error("Failed to fetch books");
     return response.json();
 }
 

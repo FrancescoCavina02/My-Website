@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="cosmic-bg min-h-screen flex flex-col">
+      <body className="cosmic-bg min-h-screen flex flex-col" suppressHydrationWarning>
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />

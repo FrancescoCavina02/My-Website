@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const navItems = [
@@ -16,7 +16,20 @@ const navItems = [
 
 export default function Header() {
     const pathname = usePathname();
+    const router = useRouter();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // Handle nav click - force refresh if already on that page
+    const handleNavClick = (href: string, e: React.MouseEvent) => {
+        setMobileMenuOpen(false);
+
+        // If clicking Notes while on Notes page (or any subpage), force full reload
+        if (href === "/notes" && pathname.startsWith("/notes")) {
+            e.preventDefault();
+            window.location.href = "/notes";
+            return;
+        }
+    };
 
     return (
         <header className="glass sticky top-0 z-50">
@@ -36,7 +49,11 @@ export default function Header() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`nav-link ${pathname === item.href ? "active" : ""
+                                onClick={(e) => handleNavClick(item.href, e)}
+                                className={`nav-link ${pathname === item.href ||
+                                    (item.href !== "/" && pathname.startsWith(item.href))
+                                    ? "active"
+                                    : ""
                                     }`}
                             >
                                 {item.label}
@@ -83,9 +100,12 @@ export default function Header() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`nav-link block ${pathname === item.href ? "active" : ""
+                                    onClick={(e) => handleNavClick(item.href, e)}
+                                    className={`nav-link block ${pathname === item.href ||
+                                        (item.href !== "/" && pathname.startsWith(item.href))
+                                        ? "active"
+                                        : ""
                                         }`}
-                                    onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {item.label}
                                 </Link>
