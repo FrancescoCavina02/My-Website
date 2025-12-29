@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: francescocavina-portfolio-api
+    runtime: python
+    region: frankfurt
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DEBUG
+        value: "false"
+      - key: CORS_ORIGINS
+        sync: false  # Will be set manually after Vercel deployment
+    plan: free
