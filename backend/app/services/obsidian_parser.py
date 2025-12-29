@@ -7,7 +7,7 @@ Adapted from NLP Chatbot project for portfolio use
 import re
 import hashlib
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Dict
 import logging
 from datetime import datetime
 import os
@@ -54,7 +54,7 @@ class ObsidianParser:
             return cached
         
         if exclude_patterns is None:
-            exclude_patterns = ['.obsidian', 'templates', 'Archive', '.trash']
+            exclude_patterns = ['.obsidian', 'templates', 'Archive', '.trash', 'Excalidraw']
         
         notes = []
         
@@ -103,9 +103,6 @@ class ObsidianParser:
             
             # Extract title (use filename without extension)
             title = file_path.stem
-            # Clean up title (remove "Notes - " prefix if present)
-            if title.startswith("Notes - "):
-                title = title[8:]
             
             # Extract metadata from file path
             relative_path = file_path.relative_to(self.vault_path)
@@ -138,15 +135,7 @@ class ObsidianParser:
             return None
     
     def get_note_by_id(self, note_id: str) -> Optional[Note]:
-        """
-        Get a specific note by its ID
-        
-        Args:
-            note_id: The note's unique identifier
-            
-        Returns:
-            Note object or None if not found
-        """
+        """Get a specific note by its ID"""
         notes = self.parse_all_notes()
         for note in notes:
             if note.id == note_id:
@@ -154,28 +143,17 @@ class ObsidianParser:
         return None
     
     def get_notes_by_category(self, category: str) -> List[Note]:
-        """
-        Get all notes in a specific category
-        
-        Args:
-            category: Category name to filter by
-            
-        Returns:
-            List of notes in the category
-        """
+        """Get all notes in a specific category"""
         notes = self.parse_all_notes()
         return [n for n in notes if n.category.lower() == category.lower()]
     
+    def get_notes_by_book(self, book: str) -> List[Note]:
+        """Get all notes for a specific book"""
+        notes = self.parse_all_notes()
+        return [n for n in notes if n.book and n.book.lower() == book.lower()]
+    
     def search_notes(self, query: str) -> List[Note]:
-        """
-        Search notes by title or content
-        
-        Args:
-            query: Search query string
-            
-        Returns:
-            List of matching notes
-        """
+        """Search notes by title or content"""
         notes = self.parse_all_notes()
         query_lower = query.lower()
         
@@ -186,6 +164,21 @@ class ObsidianParser:
                 results.append(note)
         
         return results
+    
+    def get_categories(self) -> List[str]:
+        """Get list of unique categories"""
+        notes = self.parse_all_notes()
+        categories = set(n.category for n in notes)
+        return sorted(list(categories))
+    
+    def get_books_by_category(self, category: str) -> List[str]:
+        """Get list of books in a category"""
+        notes = self.parse_all_notes()
+        books = set()
+        for n in notes:
+            if n.category.lower() == category.lower() and n.book:
+                books.add(n.book)
+        return sorted(list(books))
     
     def _extract_category(self, relative_path: Path) -> str:
         """Extract category from file path (top-level folder)"""
@@ -198,7 +191,11 @@ class ObsidianParser:
         """Extract book/source name from file path (second-level folder)"""
         parts = relative_path.parts
         if len(parts) >= 2:
-            return parts[1]
+            book = parts[1]
+            # Strip .md extension if present (shouldn't be but some folders have it)
+            if book.endswith('.md'):
+                book = book[:-3]
+            return book
         return None
     
     def _extract_links(self, content: str) -> List[str]:

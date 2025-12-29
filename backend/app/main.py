@@ -30,15 +30,17 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting Portfolio Backend...")
     
-    # Pre-warm the cache by loading notes
-    try:
-        from app.services.obsidian_parser import get_parser
-        parser = get_parser()
-        notes_data = parser.parse_all_notes()
-        cache_service.set("all_notes", notes_data)
-        logger.info(f"Cached {len(notes_data)} notes on startup")
-    except Exception as e:
-        logger.warning(f"Could not pre-warm cache: {e}")
+    # Pre-warm disabled - notes will be parsed on first request
+    # This allows the server to start quickly
+    # try:
+    #     from app.services.obsidian_parser import get_parser
+    #     parser = get_parser()
+    #     notes_data = parser.parse_all_notes()
+    #     cache_service.set("all_notes", notes_data)
+    #     logger.info(f"Cached {len(notes_data)} notes on startup")
+    # except Exception as e:
+    #     logger.warning(f"Could not pre-warm cache: {e}")
+    logger.info("Server starting without cache pre-warming")
     
     yield
     
