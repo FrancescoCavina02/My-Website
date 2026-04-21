@@ -8,17 +8,18 @@ import re
 import hashlib
 from pathlib import Path
 from typing import List, Optional, Tuple, Dict
-import logging
+import structlog
 from datetime import datetime
 import os
 from dotenv import load_dotenv
 
 from app.models.note import Note
 from app.services.cache_service import cache_service
+from app.services.search_index import SearchIndex
 
 load_dotenv()
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 class ObsidianParser:
@@ -78,11 +79,18 @@ class ObsidianParser:
                 logger.error(f"Error parsing {file_path}: {e}")
                 continue
         
-        logger.info(f"Successfully parsed {len(notes)} notes")
-        
-        # Cache the results
+        logger.info("notes_parsed", notes_count=len(notes))
+
+        # Build search index
+        logger.info("search_index_building")
+        search_index = SearchIndex.build_from_notes(notes)
+        index_stats = search_index.get_stats()
+        logger.info("search_index_built", **index_stats)
+
+        # Cache both notes and search index
         cache_service.set("all_notes", notes)
-        
+        cache_service.set("search_index", search_index)
+
         return notes
     
     def parse_note(self, file_path: Path) -> Optional[Note]:
@@ -152,17 +160,42 @@ class ObsidianParser:
         notes = self.parse_all_notes()
         return [n for n in notes if n.book and n.book.lower() == book.lower()]
     
-    def search_notes(self, query: str) -> List[Note]:
-        """Search notes by title or content"""
+    def search_notes(self, query: str, top_k: int = 20) -> List[Note]:
+        """
+        Search notes using TF-IDF indexed search
+
+        Args:
+            query: Search query string
+            top_k: Maximum number of results to return (default: 20)
+
+        Returns:
+            List of Note objects sorted by relevance
+        """
+        # Ensure index is built by calling parse_all_notes
         notes = self.parse_all_notes()
-        query_lower = query.lower()
-        
+
+        # Get cached search index
+        search_index = cache_service.get("search_index")
+
+        if search_index is None:
+            # Fallback: rebuild index if not cached (shouldn't happen)
+            logger.warning("Search index not found in cache, rebuilding...")
+            search_index = SearchIndex.build_from_notes(notes)
+            cache_service.set("search_index", search_index)
+
+        # Perform indexed search
+        search_results = search_index.search(query, top_k=top_k)
+
+        # Convert search results to Note objects
+        note_map = {note.id: note for note in notes}
         results = []
-        for note in notes:
-            if (query_lower in note.title.lower() or 
-                query_lower in note.content.lower()):
-                results.append(note)
-        
+        for note_id, score, metadata in search_results:
+            if note_id in note_map:
+                results.append(note_map[note_id])
+            else:
+                logger.warning("note_not_found", note_id=note_id, context="index_mismatch")
+
+        logger.info("search_completed", query=query, results_count=len(results))
         return results
     
     def get_categories(self) -> List[str]:

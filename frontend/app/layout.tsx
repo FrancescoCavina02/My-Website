@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,22 +18,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Francesco Cavina | Software Engineer & AI Enthusiast",
+  title: "Francesco Cavina — AI & Software Engineering",
   description:
-    "Personal portfolio showcasing projects, education, and insights on AI, software engineering, and technology.",
-  keywords: [
-    "Francesco Cavina",
-    "Software Engineer",
-    "AI",
-    "Machine Learning",
-    "Portfolio",
-    "UvA",
-  ],
+    "Personal portfolio of Francesco Cavina, Computer Science student at [FILL IN University], MSc AI applicant at UvA. Projects in RAG, NLP, LLMs, and full-stack development.",
+  keywords: ["AI", "Machine Learning", "NLP", "RAG", "Next.js", "FastAPI", "Portfolio"],
   authors: [{ name: "Francesco Cavina" }],
   openGraph: {
-    title: "Francesco Cavina | Software Engineer & AI Enthusiast",
-    description:
-      "Personal portfolio showcasing projects, education, and insights.",
+    title: "Francesco Cavina — AI & Software Engineering",
+    description: "AI projects, personal notes, and software engineering work.",
+    url: "https://[FILL IN DOMAIN].com",
+    siteName: "Francesco Cavina",
     type: "website",
     locale: "en_US",
   },
@@ -45,10 +40,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="cosmic-bg min-h-screen flex flex-col" suppressHydrationWarning>
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+      <body className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]" suppressHydrationWarning>
+        <ErrorBoundary>
+          <Header />
+          <main id="main-content" className="flex-grow" role="main">
+            {children}
+          </main>
+          <Footer />
+        </ErrorBoundary>
       </body>
     </html>
   );

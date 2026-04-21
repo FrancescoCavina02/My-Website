@@ -3,7 +3,7 @@ Notes API Routes
 Endpoints for browsing and searching Obsidian notes
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import List, Optional
 import logging
 
@@ -11,6 +11,7 @@ from app.models.note import Note, NoteMetadata, NoteStats
 from app.services.obsidian_parser import get_parser
 from app.services.tree_parser import get_tree_parser
 from app.services.cache_service import cache_service
+from app.middleware.auth import verify_admin
 
 logger = logging.getLogger(__name__)
 
@@ -192,7 +193,11 @@ async def get_note(note_id: str):
 
 
 @router.post("/cache/invalidate")
-async def invalidate_cache():
-    """Force refresh of the notes cache"""
+async def invalidate_cache(_admin: dict = Depends(verify_admin)):
+    """
+    Force refresh of the notes cache (admin endpoint - requires authentication)
+
+    Requires valid JWT token from /api/auth/login.
+    """
     count = cache_service.invalidate_all()
     return {"message": f"Cache invalidated, {count} entries cleared"}

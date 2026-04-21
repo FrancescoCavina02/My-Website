@@ -1,0 +1,43 @@
+[flake8]
+# Flake8 configuration for code quality checks
+
+max-line-length = 100
+extend-ignore =
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # W503: line break before binary operator (conflicts with black)
+    W503,
+    # E501: line too long (handled by black)
+    E501,
+    # E402: module level import not at top of file
+    # E402
+
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    .pytest_cache,
+    htmlcov,
+    alembic/versions,
+    build,
+    dist,
+    *.egg-info
+
+# Complexity settings
+max-complexity = 10
+
+# Import order - delegate to isort
+# application-import-names = app
+
+per-file-ignores =
+    # Ignore import errors in __init__.py files
+    __init__.py:F401,F403
+    # Ignore import order in alembic env.py
+    alembic/env.py:E402
+    # Ignore unused imports in tests (fixtures may be imported but not directly called)
+    tests/*:F401,F811
+
+# Count errors
+count = True
+statistics = True

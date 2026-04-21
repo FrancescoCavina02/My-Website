@@ -11,7 +11,7 @@ export default function AboutPage() {
                     {/* Page Header */}
                     <div className="mb-12 text-center stagger-children">
                         <h1 className="mb-4">
-                            About <span className="text-gradient">Me</span>
+                            About Me
                         </h1>
                         <p className="text-[var(--color-text-secondary)] text-lg">
                             The story behind the code
@@ -20,110 +20,93 @@ export default function AboutPage() {
 
                     {/* Content */}
                     <div className="space-y-8 animate-fade-in-up">
-                        {/* Background Section */}
+                        
+                        {/* 1. Introduction Section */}
                         <div className="card">
-                            <h2 className="text-2xl font-semibold mb-4 text-gradient">
-                                Background
+                            <h2 className="text-xl font-semibold mb-4 text-white border-b border-[rgba(255,255,255,0.05)] pb-3">
+                                Introduction
                             </h2>
-                            {/* PLACEHOLDER: Replace with your content */}
                             <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)]">
-                                <p className="mb-4">
-                                    [Your personal story here - 2-3 paragraphs about who you are,
-                                    your journey into AI/tech, and what drives you]
+                                <p className="mb-4 leading-relaxed font-light">
+                                    I'm a Computer Science student based in Amsterdam, passionate about building intelligent systems that sit at the intersection of AI, philosophy, and human experience. I have developed a strong proficiency in Python and full-stack development, with an increasing focus on Natural Language Processing and reasoning systems.
                                 </p>
-                                <p className="mb-4">
-                                    Share your background, where you grew up, what sparked your
-                                    interest in technology and AI, and the experiences that shaped
-                                    your career path.
-                                </p>
-                                <p>
-                                    Explain your motivation for pursuing the AI Master's program
-                                    and what you hope to achieve.
+                                <p className="leading-relaxed font-light">
+                                    Currently, I am applying to the MSc Artificial Intelligence at the University of Amsterdam (UvA) to pursue this passion rigorously. My goal is to deepen my theoretical understanding of machine learning mechanisms while pushing the boundaries of applied AI in creating robust, context-aware digital guides and knowledge graphs.
                                 </p>
                             </div>
                         </div>
 
-                        {/* Interests Section */}
+                        {/* 2. Technical Skills Section */}
                         <div className="card">
-                            <h2 className="text-2xl font-semibold mb-4 text-gradient">
+                            <h2 className="text-xl font-semibold mb-6 text-white border-b border-[rgba(255,255,255,0.05)] pb-3">
+                                Technical Skills
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-3 font-semibold">Languages</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="tag">Python</span>
+                                        <span className="tag">TypeScript</span>
+                                        <span className="tag">JavaScript</span>
+                                        <span className="tag">SQL</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-3 font-semibold">AI / Machine Learning</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="tag border-[rgba(14,165,233,0.3)] text-[var(--color-accent)]">LLMs</span>
+                                        <span className="tag border-[rgba(14,165,233,0.3)] text-[var(--color-accent)]">RAG</span>
+                                        <span className="tag">ChromaDB</span>
+                                        <span className="tag">OpenAI API</span>
+                                        <span className="tag">Hugging Face</span>
+                                        <span className="tag">scikit-learn</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-3 font-semibold">Frameworks</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="tag">FastAPI</span>
+                                        <span className="tag">Next.js</span>
+                                        <span className="tag">React</span>
+                                        <span className="tag">Tailwind CSS</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] mb-3 font-semibold">Tools</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="tag">Git</span>
+                                        <span className="tag">Docker</span>
+                                        <span className="tag">Obsidian</span>
+                                        <span className="tag">Render</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3. Interests Section */}
+                        <div className="card">
+                            <h2 className="text-xl font-semibold mb-4 text-white border-b border-[rgba(255,255,255,0.05)] pb-3">
                                 Interests
                             </h2>
-                            {/* PLACEHOLDER: Replace with your interests */}
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                {[
-                                    "Artificial Intelligence",
-                                    "Machine Learning",
-                                    "Philosophy",
-                                    "Spirituality",
-                                    "Psychology",
-                                    "Music",
-                                ].map((interest) => (
-                                    <div
-                                        key={interest}
-                                        className="p-3 bg-[var(--color-space-700)] rounded-lg text-center text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent-500)] transition-colors"
-                                    >
-                                        {interest}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Goals Section */}
-                        <div className="card">
-                            <h2 className="text-2xl font-semibold mb-4 text-gradient">
-                                Goals
-                            </h2>
-                            {/* PLACEHOLDER: Replace with your goals */}
-                            <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)]">
-                                <p className="mb-4">
-                                    [Your career goals and why UvA AI Master's]
+                            <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light leading-relaxed">
+                                <p>
+                                    Beyond code, I'm drawn to questions at the intersection of philosophy, consciousness, and AI. I practice pottery as a form of mindful making, run regularly, and play dodgeball competitively. I read widely to inform my worldview and my work — drawing constantly from both classic Stoic philosophy and modern neuroscience.
                                 </p>
-                                <ul className="list-disc list-inside space-y-2">
-                                    <li>Short-term goal: [e.g., Complete AI Master's program]</li>
-                                    <li>
-                                        Medium-term goal: [e.g., Contribute to AI research or
-                                        industry]
-                                    </li>
-                                    <li>
-                                        Long-term goal: [e.g., Lead impactful AI projects that
-                                        benefit society]
-                                    </li>
-                                </ul>
                             </div>
                         </div>
 
-                        {/* Skills Section */}
-                        <div className="card">
-                            <h2 className="text-2xl font-semibold mb-4 text-gradient">
-                                Skills
+                        {/* 4. Currently Section */}
+                        <div className="card border-l-[3px] border-[var(--color-accent)]">
+                            <h2 className="text-xl font-semibold mb-2 text-white">
+                                Currently
                             </h2>
-                            <div className="space-y-4">
-                                {[
-                                    { name: "Python", level: 85 },
-                                    { name: "JavaScript/TypeScript", level: 80 },
-                                    { name: "React/Next.js", level: 75 },
-                                    { name: "Machine Learning", level: 70 },
-                                    { name: "Data Analysis", level: 75 },
-                                ].map((skill) => (
-                                    <div key={skill.name}>
-                                        <div className="flex justify-between mb-1">
-                                            <span className="text-[var(--color-text-primary)] text-sm">
-                                                {skill.name}
-                                            </span>
-                                            <span className="text-[var(--color-text-muted)] text-sm">
-                                                {skill.level}%
-                                            </span>
-                                        </div>
-                                        <div className="h-2 bg-[var(--color-space-700)] rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-gradient-to-r from-[var(--color-accent-500)] to-[var(--color-nebula-500)] rounded-full transition-all duration-1000"
-                                                style={{ width: `${skill.level}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
+                            <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light">
+                                <p>
+                                    Finishing my BSc in Computer Science at [FILL IN University], building AI projects, and preparing my MSc AI application to the University of Amsterdam.
+                                </p>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>

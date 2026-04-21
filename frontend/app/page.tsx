@@ -1,75 +1,79 @@
 import Link from "next/link";
+import Image from "next/image";
 import Card from "@/components/ui/Card";
-
-const navigationCards = [
-  {
-    href: "/about",
-    title: "About Me",
-    description: "My background, interests, and what drives me",
-    icon: "👤",
-  },
-  {
-    href: "/projects",
-    title: "Projects",
-    description: "Websites, AI experiments, and creative work",
-    icon: "🚀",
-  },
-  {
-    href: "/education",
-    title: "Education",
-    description: "Academic journey and certifications",
-    icon: "🎓",
-  },
-  {
-    href: "/notes",
-    title: "Notes",
-    description: "Insights from books on spirituality, psychology, and more",
-    icon: "📚",
-  },
-  {
-    href: "/quotes",
-    title: "Daily Quotes",
-    description: "Discover wisdom from my reading collection",
-    icon: "✨",
-  },
-  {
-    href: "/contact",
-    title: "Contact",
-    description: "Let's connect and discuss ideas",
-    icon: "📬",
-  },
-];
+import { Brain, GraduationCap, BookOpen, Quote, Mail, User } from "lucide-react";
 
 export default function Home() {
+  const navigationCards = [
+    {
+      href: "/about",
+      title: "About Me",
+      description: "My background, interests, and what drives me",
+      icon: <User className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+    {
+      href: "/projects",
+      title: "Projects",
+      description: "Websites, AI experiments, and creative work",
+      icon: <Brain className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+    {
+      href: "/education",
+      title: "Education",
+      description: "Academic journey and certifications",
+      icon: <GraduationCap className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+    {
+      href: "/notes",
+      title: "Notes",
+      description: "Insights from books on spirituality, psychology, and more",
+      icon: <BookOpen className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+    {
+      href: "/quotes",
+      title: "Daily Quotes",
+      description: "Discover wisdom from my reading collection",
+      icon: <Quote className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+    {
+      href: "/contact",
+      title: "Contact",
+      description: "Let's connect and discuss ideas",
+      icon: <Mail className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="section pt-20 pb-16 md:pt-32 md:pb-24">
         <div className="max-w-4xl mx-auto text-center stagger-children">
-          {/* Photo Placeholder */}
-          <div className="mb-8 inline-block">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-[var(--color-accent-500)] to-[var(--color-nebula-500)] p-1 animate-float">
-              <div className="w-full h-full rounded-full bg-[var(--color-space-800)] flex items-center justify-center text-[var(--color-text-muted)]">
-                {/* PLACEHOLDER: Replace with your photo */}
-                {/* Add your image to: frontend/public/images/profile.jpg */}
-                <span className="text-sm">Photo</span>
-              </div>
+          
+          {/* Profile Photo */}
+          <div className="mb-8 inline-block animate-fade-in-up">
+            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-lg mx-auto">
+              {/* Ensure to upload your profile.jpg to /public/images/profile.jpg */}
+              <Image 
+                src="/images/profile.jpg"
+                alt="Francesco Cavina"
+                fill
+                priority
+                className="object-cover"
+              />
             </div>
           </div>
 
           {/* Name & Title */}
           <h1 className="mb-4">
-            <span className="text-gradient">Francesco Cavina</span>
+            <span className="text-white font-bold tracking-tight">Francesco Cavina</span>
           </h1>
-          <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-6">
-            Software Engineer & AI Enthusiast
+          <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-6 font-light">
+            AI & Software Engineering Student | MSc AI Applicant @ UvA
           </p>
 
-          {/* Brief Introduction */}
-          <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed">
-            {/* PLACEHOLDER: Replace with your introduction */}
-            Building intelligent systems at the intersection of technology and human experience.
-            Passionate about leveraging AI to create meaningful solutions.
+          {/* Introduction */}
+          <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+            I'm a Computer Science student based in Amsterdam, passionate about building intelligent systems that sit at the intersection of AI, philosophy, and human experience. I'm applying to the MSc Artificial Intelligence at UvA to deepen my expertise in NLP, reasoning systems, and machine learning theory. When I'm not coding, you'll find me at the pottery wheel, on a dodgeball court, or reading Stoic philosophy.
           </p>
 
           {/* CTA Buttons */}
@@ -85,7 +89,7 @@ export default function Home() {
       </section>
 
       {/* Navigation Cards */}
-      <section className="section pt-8 pb-20">
+      <section className="section pt-8 pb-20 border-t border-[rgba(255,255,255,0.05)]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
           {navigationCards.map((card) => (
             <Card
@@ -93,21 +97,11 @@ export default function Home() {
               href={card.href}
               title={card.title}
               description={card.description}
-              icon={<span className="text-4xl">{card.icon}</span>}
+              icon={card.icon}
             />
           ))}
         </div>
       </section>
-
-      {/* Decorative Gradient Orb */}
-      <div
-        className="fixed top-1/3 -left-32 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
-        style={{ background: "var(--gradient-glow)" }}
-      />
-      <div
-        className="fixed bottom-1/3 -right-32 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, var(--color-nebula-500), transparent 70%)" }}
-      />
     </div>
   );
 }

@@ -3,49 +3,73 @@ FastAPI Application Entry Point
 Professional Portfolio Website Backend
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 import os
 from dotenv import load_dotenv
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
-from app.api import notes, quotes, contact
+from app.api import notes, quotes, contact, auth
 from app.services.cache_service import cache_service
+from app.services.file_watcher import initialize_file_watcher, shutdown_file_watcher
+from app.middleware.security import SecurityHeadersMiddleware
+from app.middleware.rate_limit import limiter
+from app.middleware.request_id import RequestIDMiddleware
+from app.config import get_settings
+from app.logging_config import configure_logging, get_logger
 
 # Load environment variables
 load_dotenv()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.DEBUG if os.getenv("DEBUG", "false").lower() == "true" else logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+# Validate environment variables on startup
+# This will fail fast if required variables are missing or invalid
+try:
+    settings = get_settings()
+except Exception as e:
+    # Logger may not be configured yet, use print for critical startup errors
+    print(f"FATAL: Failed to load configuration: {e}")
+    raise SystemExit(1)
+
+# Configure structured logging
+configure_logging(debug=settings.debug)
+logger = get_logger(__name__)
+logger.info("startup", message="Environment variables validated successfully", debug=settings.debug)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
     # Startup
-    logger.info("Starting Portfolio Backend...")
-    
+    logger.info("startup", message="Starting Portfolio Backend")
+
+    # Start file watcher for automatic cache invalidation
+    try:
+        if settings.obsidian_vault_path and os.path.exists(settings.obsidian_vault_path):
+            initialize_file_watcher(settings.obsidian_vault_path)
+            logger.info("file_watcher_started", vault_path=settings.obsidian_vault_path)
+        else:
+            logger.warning("vault_path_missing", vault_path=settings.obsidian_vault_path)
+    except Exception as e:
+        logger.warning("file_watcher_failed", error=str(e), exc_info=True)
+
     # Pre-warm disabled - notes will be parsed on first request
     # This allows the server to start quickly
-    # try:
-    #     from app.services.obsidian_parser import get_parser
-    #     parser = get_parser()
-    #     notes_data = parser.parse_all_notes()
-    #     cache_service.set("all_notes", notes_data)
-    #     logger.info(f"Cached {len(notes_data)} notes on startup")
-    # except Exception as e:
-    #     logger.warning(f"Could not pre-warm cache: {e}")
-    logger.info("Server starting without cache pre-warming")
-    
+    logger.info("startup_complete", cache_prewarming="disabled")
+
     yield
-    
+
     # Shutdown
-    logger.info("Shutting down Portfolio Backend...")
+    logger.info("shutdown", message="Shutting down Portfolio Backend")
+
+    # Stop file watcher
+    try:
+        shutdown_file_watcher()
+        logger.info("file_watcher_stopped")
+    except Exception as e:
+        logger.error("file_watcher_shutdown_failed", error=str(e), exc_info=True)
 
 
 # Create FastAPI application
@@ -56,17 +80,25 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+# Configure rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Add middleware (order matters - first added is outermost)
+app.add_middleware(RequestIDMiddleware)  # Add request ID to all requests
+app.add_middleware(SecurityHeadersMiddleware)  # Add security headers
+
+# Configure CORS - tightened for security
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins,
+    allow_origins=settings.get_cors_origins_list(),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST"],  # Only allow necessary methods
+    allow_headers=["Content-Type", "Authorization"],  # Only allow necessary headers
 )
 
 # Register API routes
+app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(notes.router, prefix="/api/notes", tags=["Notes"])
 app.include_router(quotes.router, prefix="/api/quotes", tags=["Quotes"])
 app.include_router(contact.router, prefix="/api/contact", tags=["Contact"])

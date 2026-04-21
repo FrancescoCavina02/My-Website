@@ -1,0 +1,191 @@
+name: CI - Test & Lint
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "20"
+
+jobs:
+  # Backend Tests
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create test .env file
+        run: |
+          cat > .env << EOF
+          OBSIDIAN_VAULT_PATH=/tmp/test-vault
+          DATABASE_URL=sqlite+aiosqlite:///:memory:
+          DEBUG=true
+          CORS_ORIGINS=http://localhost:3000
+          CACHE_TTL=60
+          JWT_SECRET_KEY=test-secret-key-for-ci-only
+          JWT_ALGORITHM=HS256
+          JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
+          ADMIN_EMAIL=test@example.com
+          ADMIN_PASSWORD_HASH=\$2b\$12\$test_hash_placeholder
+          SENDGRID_API_KEY=
+          NOTIFICATION_EMAIL=test@example.com
+          FROM_EMAIL=noreply@example.com
+          EOF
+
+      - name: Create test vault directory
+        run: mkdir -p /tmp/test-vault
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=app --cov-report=xml --cov-report=term --cov-fail-under=70
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./backend/coverage.xml
+          flags: backend
+          name: backend-coverage
+        continue-on-error: true
+
+  # Backend Code Quality
+  backend-quality:
+    name: Backend Code Quality
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run black (format check)
+        run: black --check .
+
+      - name: Run isort (import order check)
+        run: isort --check-only .
+
+      - name: Run flake8 (linting)
+        run: flake8 .
+
+      - name: Run mypy (type checking)
+        run: mypy app
+        continue-on-error: true  # Don't fail on type errors initially
+
+  # Frontend Tests
+  frontend-test:
+    name: Frontend Tests & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript type check
+        run: npm run type-check
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true  # Don't fail on lint warnings initially
+
+      - name: Run Prettier check
+        run: npm run format:check
+
+      - name: Build project
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+
+  # Security Checks
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+        continue-on-error: true
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+        continue-on-error: true
+
+  # Summary
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs: [backend-test, backend-quality, frontend-test, security]
+    if: always()
+
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ needs.backend-test.result }}" != "success" ]]; then
+            echo "Backend tests failed"
+            exit 1
+          fi
+          if [[ "${{ needs.backend-quality.result }}" != "success" ]]; then
+            echo "Backend quality checks failed"
+            exit 1
+          fi
+          if [[ "${{ needs.frontend-test.result }}" != "success" ]]; then
+            echo "Frontend tests failed"
+            exit 1
+          fi
+          echo "All CI checks passed!"

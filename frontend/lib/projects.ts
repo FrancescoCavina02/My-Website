@@ -2,11 +2,6 @@
  * Projects Data
  * 
  * Add your projects here. Each project will appear on the Projects page.
- * 
- * To add a project:
- * 1. Add the project object to the array below
- * 2. Add a thumbnail image to frontend/public/images/projects/
- * 3. Set the image path in the project object
  */
 
 export interface Project {
@@ -23,36 +18,26 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-    // PLACEHOLDER: Add your projects here
-    {
-        id: "nlp-chatbot",
-        title: "Spiritual AI Guide Chatbot",
-        description:
-            "RAG-powered chatbot providing spiritual guidance from personal book notes",
-        longDescription:
-            "An intelligent chatbot using Retrieval-Augmented Generation to provide spiritual and psychological guidance based on curated notes from books on spirituality, psychology, and philosophy.",
-        category: "ai",
-        technologies: ["Python", "FastAPI", "ChromaDB", "Next.js", "OpenAI"],
-        githubUrl: "https://github.com/FrancescoCavina02/Spiritual-chatbot",
-        featured: true,
-    },
-    {
-        id: "portfolio",
-        title: "Portfolio Website",
-        description:
-            "This website - built with Next.js and FastAPI with Obsidian integration",
-        category: "web",
-        technologies: ["Next.js", "TypeScript", "FastAPI", "Tailwind CSS"],
-        featured: true,
-    },
-    {
-        id: "example-podcast",
-        title: "Example Podcast",
-        description: "Placeholder for your podcast project",
-        category: "podcast",
-        technologies: ["Audio Production", "Content Creation"],
-        featured: false,
-    },
+  {
+    id: "personal-website",
+    title: "AI-Powered Personal Website",
+    description: "Full-stack personal portfolio with FastAPI backend, Obsidian vault integration, and an AI-powered knowledge graph system.",
+    longDescription: "A Next.js + FastAPI web application that parses my personal Obsidian knowledge vault in real time, extracts structured notes and quotes, and serves them through a REST API. The system uses a custom tree parser and caching layer for performance. Demonstrates full-stack development, API design, and integration of personal knowledge management with web technology.",
+    category: "web",
+    technologies: ["Next.js", "TypeScript", "FastAPI", "Python", "Tailwind CSS", "Obsidian", "Render.com"],
+    githubUrl: "https://github.com/FrancescoCavina02/My-Website",
+    featured: true,
+  },
+  {
+    id: "spiritual-chatbot",
+    title: "Spiritual AI Guide Chatbot",
+    description: "RAG-powered chatbot providing spiritual and psychological guidance from a curated personal knowledge base.",
+    longDescription: "An intelligent conversational agent that uses Retrieval-Augmented Generation (RAG) to answer questions grounded in my personal notes on spirituality, psychology, and philosophy. Built with ChromaDB as a vector store for semantic search, OpenAI's embeddings and GPT models for generation, and FastAPI for the backend API. Demonstrates applied NLP, vector database design, prompt engineering, and LLM orchestration.",
+    category: "ai",
+    technologies: ["Python", "FastAPI", "ChromaDB", "OpenAI API", "LangChain", "Next.js", "RAG"],
+    githubUrl: "https://github.com/FrancescoCavina02/Spiritual-chatbot",
+    featured: true,
+  }
 ];
 
 export const categories = [

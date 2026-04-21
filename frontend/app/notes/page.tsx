@@ -10,6 +10,8 @@ import {
     Note,
     NoteMetadata,
 } from "@/lib/api";
+import CardSkeleton, { BookCardSkeleton, SearchCardSkeleton } from "@/components/loading/CardSkeleton";
+import NoteSkeleton from "@/components/loading/NoteSkeleton";
 
 type ViewLevel = "categories" | "books" | "note";
 
@@ -164,7 +166,7 @@ export default function NotesPage() {
                 setLoading(false);
             })
             .catch(() => {
-                setError("Could not load notes. Make sure the backend is running.");
+                setError("Notes are synced from my personal Obsidian vault. If you're seeing this, the backend service may be loading. Check back shortly.");
                 setLoading(false);
             });
     }, []);
@@ -305,12 +307,12 @@ export default function NotesPage() {
             <section className="section">
                 <div className="max-w-5xl mx-auto">
                     {/* Page Header */}
-                    <div className="mb-6 text-center">
-                        <h1 className="mb-2">
-                            My <span className="text-gradient">Notes</span>
+                    <div className="mb-8 text-center">
+                        <h1 className="mb-3 text-white font-semibold">
+                            Notes
                         </h1>
-                        <p className="text-[var(--color-text-secondary)] text-lg max-w-2xl mx-auto">
-                            Insights from my reading collection
+                        <p className="text-[var(--color-text-secondary)] text-lg max-w-2xl mx-auto font-light">
+                            Notes from my personal knowledge base — readings on AI, philosophy, psychology, and science.
                         </p>
                     </div>
 
@@ -396,11 +398,13 @@ export default function NotesPage() {
 
                     {/* Search Results */}
                     {searchQuery.length >= 2 && (
-                        <div className="mb-8">
+                        <div className="mb-8" role="region" aria-live="polite" aria-label="Search results">
                             <h2 className="text-lg font-semibold mb-4">
                                 Results ({searchResults.length})
                             </h2>
-                            {searchResults.length > 0 ? (
+                            {isSearching ? (
+                                <SearchCardSkeleton.Grid count={4} />
+                            ) : searchResults.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {searchResults.map((note) => (
                                         <button
@@ -425,7 +429,7 @@ export default function NotesPage() {
                                                     noteHistoryIds: [],
                                                 });
                                             }}
-                                            className="card card-glow text-left"
+                                            className="card text-left"
                                         >
                                             <div className="flex items-start gap-2">
                                                 <span className="tag text-xs">{note.category}</span>
@@ -444,21 +448,19 @@ export default function NotesPage() {
                                         </button>
                                     ))}
                                 </div>
-                            ) : !isSearching ? (
+                            ) : (
                                 <p className="text-[var(--color-text-muted)]">No results</p>
-                            ) : null}
+                            )}
                         </div>
                     )}
 
                     {/* Loading/Error */}
                     {loading && (
-                        <div className="text-center py-12">
-                            <div className="w-8 h-8 border-2 border-[var(--color-accent-500)] border-t-transparent rounded-full animate-spin mx-auto" />
-                        </div>
+                        <CardSkeleton.Grid count={6} />
                     )}
 
                     {error && (
-                        <div className="text-center py-12 text-[var(--color-text-muted)]">
+                        <div className="text-center py-12 text-[var(--color-text-muted)] border border-[rgba(255,255,255,0.05)] rounded-lg bg-[rgba(255,255,255,0.02)]">
                             {error}
                         </div>
                     )}
@@ -488,14 +490,14 @@ export default function NotesPage() {
                                             <button
                                                 key={category}
                                                 onClick={() => handleCategoryClick(category)}
-                                                className="card card-glow text-left group p-6"
+                                                className="card text-left group p-6"
                                             >
                                                 <div className="flex items-center gap-3 mb-3">
                                                     <span className="text-3xl">
                                                         {icons[category] || "📖"}
                                                     </span>
                                                     <div>
-                                                        <h3 className="text-xl font-semibold text-gradient">
+                                                        <h3 className="text-xl font-semibold text-white group-hover:text-[var(--color-accent)] transition-colors">
                                                             {category}
                                                         </h3>
                                                         <p className="text-sm text-[var(--color-text-muted)]">
@@ -531,7 +533,7 @@ export default function NotesPage() {
                                                 <button
                                                     key={book}
                                                     onClick={() => handleBookClick(book)}
-                                                    className="card card-glow text-left group p-5"
+                                                    className="card text-left group p-5"
                                                 >
                                                     <h3 className="font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-500)] transition-colors mb-1">
                                                         {book}
@@ -564,14 +566,12 @@ export default function NotesPage() {
                                     </button>
 
                                     {noteLoading ? (
-                                        <div className="text-center py-12">
-                                            <div className="w-8 h-8 border-2 border-[var(--color-accent-500)] border-t-transparent rounded-full animate-spin mx-auto" />
-                                        </div>
+                                        <NoteSkeleton />
                                     ) : currentNote ? (
                                         <div className="card">
                                             {/* Note Header */}
                                             <div className="mb-6 pb-4 border-b border-white/10">
-                                                <h2 className="text-2xl font-bold text-gradient mb-2">
+                                                <h2 className="text-2xl font-semibold text-white mb-2">
                                                     {currentNote.title}
                                                 </h2>
                                                 <p className="text-sm text-[var(--color-text-muted)]">

@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { fetchRandomQuote, fetchQuoteCategories, Quote } from "@/lib/api";
 import Button from "@/components/ui/Button";
+import { QuoteSkeleton } from "@/components/loading/NoteSkeleton";
+import { Quote as QuoteIcon, Copy, Check } from "lucide-react";
 
 export default function QuotesPage() {
     const [quote, setQuote] = useState<Quote | null>(null);
@@ -34,14 +36,14 @@ export default function QuotesPage() {
             setQuote(newQuote);
         } catch (err) {
             setError(
-                "Could not fetch quote. Make sure the backend is running."
+                "Could not fetch quotes. The backend service may be loading."
             );
             // Show a placeholder quote for demo purposes
             setQuote({
-                text: "The only way to do great work is to love what you do.",
-                source: "Placeholder",
-                category: selectedCategory || "Inspiration",
-                book: "Demo Quote",
+                text: "The impediment to action advances action. What stands in the way becomes the way.",
+                source: "Marcus Aurelius",
+                category: selectedCategory || "Philosophy",
+                book: "Meditations",
             });
         } finally {
             setIsLoading(false);
@@ -61,27 +63,26 @@ export default function QuotesPage() {
             <section className="section">
                 <div className="max-w-3xl mx-auto">
                     {/* Page Header */}
-                    <div className="mb-12 text-center stagger-children">
-                        <h1 className="mb-4">
-                            Daily <span className="text-gradient">Quotes</span>
+                    <div className="mb-12 text-center flex flex-col items-center">
+                        <QuoteIcon className="w-8 h-8 text-[var(--color-accent)] mb-4 opacity-80" />
+                        <h1 className="mb-4 text-white">
+                            Daily Quotes
                         </h1>
-                        <p className="text-[var(--color-text-secondary)] text-lg">
-                            Wisdom from my reading collection, powered by AI
+                        <p className="text-[var(--color-text-secondary)] text-lg font-light">
+                            Wisdom from my reading collection, parsed by AI
                         </p>
                     </div>
 
                     {/* Category Selection */}
                     <div className="mb-8 text-center">
-                        <label className="block text-sm text-[var(--color-text-muted)] mb-3">
-                            Select a category (or leave empty for random)
-                        </label>
                         <div className="flex flex-wrap justify-center gap-2">
                             <button
                                 onClick={() => setSelectedCategory("")}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === ""
-                                        ? "bg-[var(--color-accent-500)] text-[var(--color-space-900)]"
-                                        : "bg-[var(--color-space-700)] text-[var(--color-text-secondary)] hover:bg-[var(--color-space-600)]"
-                                    }`}
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                                    selectedCategory === ""
+                                        ? "bg-[var(--color-accent)] text-black"
+                                        : "bg-transparent border border-[rgba(255,255,255,0.1)] text-[var(--color-text-secondary)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
+                                }`}
                             >
                                 All
                             </button>
@@ -89,10 +90,11 @@ export default function QuotesPage() {
                                 <button
                                     key={cat}
                                     onClick={() => setSelectedCategory(cat)}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === cat
-                                            ? "bg-[var(--color-accent-500)] text-[var(--color-space-900)]"
-                                            : "bg-[var(--color-space-700)] text-[var(--color-text-secondary)] hover:bg-[var(--color-space-600)]"
-                                        }`}
+                                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                                        selectedCategory === cat
+                                            ? "bg-[var(--color-accent)] text-black"
+                                            : "bg-transparent border border-[rgba(255,255,255,0.1)] text-[var(--color-text-secondary)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
+                                    }`}
                                 >
                                     {cat}
                                 </button>
@@ -100,97 +102,61 @@ export default function QuotesPage() {
                         </div>
                     </div>
 
-                    {/* Generate Button */}
+                    {/* Generate Button Wrapper */}
                     <div className="text-center mb-12">
-                        <Button
+                        <button
                             onClick={generateQuote}
-                            isLoading={isLoading}
-                            size="lg"
-                            className="min-w-48"
+                            disabled={isLoading}
+                            className="bg-[var(--color-accent)] text-black font-semibold py-3 px-8 rounded-md hover:brightness-110 flex items-center justify-center gap-2 mx-auto min-w-[200px] transition-all disabled:opacity-50"
                         >
-                            {quote ? "Generate Another" : "Generate Quote"}
-                        </Button>
+                            {isLoading ? "Consulting vault..." : quote ? "Load Another Quote" : "Generate Quote"}
+                        </button>
                     </div>
 
-                    {/* Quote Display */}
-                    {quote && (
-                        <div className="card animate-fade-in-up text-center relative">
-                            {/* Quote Icon */}
-                            <div className="text-6xl text-[var(--color-accent-500)] opacity-30 absolute top-4 left-4">
-                                &ldquo;
-                            </div>
+                    {/* Quote Display Area */}
+                    <div className="min-h-[250px]">
+                        {isLoading ? (
+                            <QuoteSkeleton />
+                        ) : quote ? (
+                            <div className="card border-l-[3px] border-[var(--color-accent)] relative p-8 md:p-12 text-center animate-fade-in-up">
+                                {/* Quote Text */}
+                                <blockquote className="text-xl md:text-3xl text-white leading-relaxed mb-8 italic font-light">
+                                    "{quote.text}"
+                                </blockquote>
 
-                            {/* Quote Text */}
-                            <blockquote className="text-xl md:text-2xl text-[var(--color-text-primary)] leading-relaxed mb-6 pt-8 px-8">
-                                {quote.text}
-                            </blockquote>
-
-                            {/* Attribution */}
-                            <div className="border-t border-white/10 pt-4">
-                                <p className="text-[var(--color-accent-400)] font-medium">
-                                    — {quote.source}
-                                </p>
-                                {quote.book && (
-                                    <p className="text-sm text-[var(--color-text-muted)] mt-1">
-                                        from {quote.book}
+                                {/* Attribution */}
+                                <div className="flex flex-col items-center">
+                                    <p className="text-[var(--color-accent)] font-semibold tracking-wider uppercase text-sm">
+                                        — {quote.source}
                                     </p>
-                                )}
-                                <span className="tag mt-3">{quote.category}</span>
+                                    {quote.book && (
+                                        <p className="text-sm text-[var(--color-text-muted)] mt-1 font-mono">
+                                            {quote.book}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Copy Button */}
+                                <button
+                                    onClick={copyToClipboard}
+                                    className="absolute top-4 right-4 p-2 text-[var(--color-text-muted)] hover:text-white transition-colors"
+                                    title="Copy to clipboard"
+                                >
+                                    {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                                </button>
                             </div>
-
-                            {/* Copy Button */}
-                            <button
-                                onClick={copyToClipboard}
-                                className="absolute top-4 right-4 p-2 text-[var(--color-text-muted)] hover:text-[var(--color-accent-500)] transition-colors"
-                                title="Copy to clipboard"
-                            >
-                                {copied ? (
-                                    <svg
-                                        className="w-5 h-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M5 13l4 4L19 7"
-                                        />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        className="w-5 h-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                )}
-                            </button>
-                        </div>
-                    )}
-
-                    {/* Error Message */}
-                    {error && (
-                        <div className="text-center text-sm text-[var(--color-text-muted)] mt-4">
-                            {error}
-                        </div>
-                    )}
-
-                    {/* Info */}
-                    <div className="mt-12 text-center text-sm text-[var(--color-text-muted)]">
-                        <p>
-                            Quotes are extracted from my personal Obsidian vault containing
-                            notes from books on spirituality, psychology, self-help, and
-                            philosophy.
-                        </p>
+                        ) : (
+                            <div className="card flex items-center justify-center min-h-[200px] text-[var(--color-text-muted)] border-dashed border-[rgba(255,255,255,0.1)] bg-transparent">
+                                <p className="font-light">Select a category and generate a quote.</p>
+                            </div>
+                        )}
+                        
+                        {/* Error Message */}
+                        {error && (
+                            <div className="text-center text-sm text-[var(--color-text-muted)] mt-6 p-4 border border-[rgba(255,255,255,0.05)] rounded-lg bg-[rgba(255,255,255,0.02)]">
+                                {error}
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

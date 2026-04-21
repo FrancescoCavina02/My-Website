@@ -6,9 +6,9 @@ In-memory cache with TTL for efficient vault reading
 import time
 from typing import Any, Optional, Dict
 from threading import Lock
-import logging
+import structlog
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 class CacheService:
@@ -43,10 +43,10 @@ class CacheService:
             if time.time() > entry["expires_at"]:
                 # Entry expired, remove it
                 del self._cache[key]
-                logger.debug(f"Cache miss (expired): {key}")
+                logger.debug("cache_miss_expired", key=key)
                 return None
-            
-            logger.debug(f"Cache hit: {key}")
+
+            logger.debug("cache_hit", key=key)
             return entry["value"]
     
     def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
@@ -66,7 +66,7 @@ class CacheService:
                 "expires_at": time.time() + ttl,
                 "created_at": time.time()
             }
-            logger.debug(f"Cache set: {key} (TTL: {ttl}s)")
+            logger.debug("cache_set", key=key, ttl=ttl)
     
     def invalidate(self, key: str) -> bool:
         """
@@ -81,7 +81,7 @@ class CacheService:
         with self._lock:
             if key in self._cache:
                 del self._cache[key]
-                logger.debug(f"Cache invalidated: {key}")
+                logger.debug("cache_invalidated", key=key)
                 return True
             return False
     
@@ -95,7 +95,7 @@ class CacheService:
         with self._lock:
             count = len(self._cache)
             self._cache.clear()
-            logger.info(f"Cache cleared: {count} entries removed")
+            logger.info("cache_cleared", entries_removed=count)
             return count
     
     def get_stats(self) -> Dict[str, Any]:

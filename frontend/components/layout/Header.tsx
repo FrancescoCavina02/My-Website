@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const navItems = [
     { href: "/", label: "Home" },
@@ -18,6 +18,8 @@ export default function Header() {
     const pathname = usePathname();
     const router = useRouter();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const mobileMenuRef = useRef<HTMLDivElement>(null);
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
 
     // Handle nav click - force refresh if already on that page
     const handleNavClick = (href: string, e: React.MouseEvent) => {
@@ -31,10 +33,43 @@ export default function Header() {
         }
     };
 
+    // Close mobile menu on escape key
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape" && mobileMenuOpen) {
+                setMobileMenuOpen(false);
+                menuButtonRef.current?.focus();
+            }
+        };
+
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, [mobileMenuOpen]);
+
+    // Trap focus within mobile menu when open
+    useEffect(() => {
+        if (mobileMenuOpen && mobileMenuRef.current) {
+            const focusableElements = mobileMenuRef.current.querySelectorAll(
+                'a[href], button:not([disabled])'
+            );
+            const firstElement = focusableElements[0] as HTMLElement;
+            firstElement?.focus();
+        }
+    }, [mobileMenuOpen]);
+
     return (
-        <header className="glass sticky top-0 z-50">
+        <>
+            {/* Skip Navigation Link */}
+            <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-accent-500)] focus:text-[var(--color-space-900)] focus:rounded-md focus:font-medium"
+            >
+                Skip to main content
+            </a>
+
+            <header className="glass sticky top-0 z-50" role="banner">
             <div className="container">
-                <nav className="flex items-center justify-between h-16">
+                <nav className="flex items-center justify-between h-16" role="navigation" aria-label="Main navigation">
                     {/* Logo */}
                     <Link
                         href="/"
@@ -63,9 +98,12 @@ export default function Header() {
 
                     {/* Mobile Menu Button */}
                     <button
+                        ref={menuButtonRef}
                         className="md:hidden p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="Toggle menu"
+                        aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={mobileMenuOpen}
+                        aria-controls="mobile-menu"
                     >
                         <svg
                             className="w-6 h-6"
@@ -94,7 +132,13 @@ export default function Header() {
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden pb-4 animate-fade-in-up">
+                    <div
+                        id="mobile-menu"
+                        ref={mobileMenuRef}
+                        className="md:hidden pb-4 animate-fade-in-up"
+                        role="navigation"
+                        aria-label="Mobile navigation"
+                    >
                         <div className="flex flex-col gap-2">
                             {navItems.map((item) => (
                                 <Link
