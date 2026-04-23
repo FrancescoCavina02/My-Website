@@ -119,6 +119,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# N*.db
+portfolio.db
+test_geist.ts
+
 # Node
 node_modules/
 .next/

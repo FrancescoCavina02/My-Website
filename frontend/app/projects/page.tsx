@@ -30,23 +30,25 @@ export default function ProjectsPage() {
                     </div>
 
                     {/* AI Skills Demonstrated Callout Box */}
-                    <div className="mb-12 animate-fade-in-up border border-[rgba(255,255,255,0.08)] bg-[var(--color-surface)] rounded-lg p-6 border-l-[3px] border-l-[var(--color-accent)]">
+                    <div className="mb-12 animate-fade-in-up border border-[rgba(255,255,255,0.08)] bg-[rgba(14,165,233,0.05)] rounded-lg p-6">
                         <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
                            <Brain className="w-5 h-5 text-[var(--color-accent)]" /> AI Skills Demonstrated
                         </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Retrieval-Augmented Generation (RAG)</li>
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Vector Databases (ChromaDB)</li>
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> LLM Orchestration & Prompting</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Hybrid Dense-Sparse Retrieval</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Transformer Sentence Embeddings</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> HNSW ANN Indexing</li>
                             </ul>
                             <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> NLP & Semantic Search</li>
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> REST API design (FastAPI)</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Multi-LLM Provider Abstraction</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> FastAPI Async SSE Streaming</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Prompt Engineering</li>
                             </ul>
                             <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Knowledge Graph parsing</li>
-                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Full-stack AI deployment</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Quantitative Model Evaluation</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> ETL Pipeline Design</li>
+                                <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Data Engineering</li>
                             </ul>
                         </div>
                     </div>

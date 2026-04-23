@@ -58,18 +58,13 @@ export default function Header() {
     }, [mobileMenuOpen]);
 
     return (
-        <>
-            {/* Skip Navigation Link */}
-            <a
-                href="#main-content"
-                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-accent-500)] focus:text-[var(--color-space-900)] focus:rounded-md focus:font-medium"
-            >
-                Skip to main content
-            </a>
-
-            <header className="glass sticky top-0 z-50" role="banner">
+        <header className="glass sticky top-0 z-50" role="banner">
             <div className="container">
-                <nav className="flex items-center justify-between h-16" role="navigation" aria-label="Main navigation">
+                <nav
+                    className="flex items-center justify-between h-16"
+                    role="navigation"
+                    aria-label="Main navigation"
+                >
                     {/* Logo */}
                     <Link
                         href="/"
@@ -85,11 +80,12 @@ export default function Header() {
                                 key={item.href}
                                 href={item.href}
                                 onClick={(e) => handleNavClick(item.href, e)}
-                                className={`nav-link ${pathname === item.href ||
+                                className={`nav-link ${
+                                    pathname === item.href ||
                                     (item.href !== "/" && pathname.startsWith(item.href))
-                                    ? "active"
-                                    : ""
-                                    }`}
+                                        ? "active"
+                                        : ""
+                                }`}
                             >
                                 {item.label}
                             </Link>
@@ -145,11 +141,12 @@ export default function Header() {
                                     key={item.href}
                                     href={item.href}
                                     onClick={(e) => handleNavClick(item.href, e)}
-                                    className={`nav-link block ${pathname === item.href ||
+                                    className={`nav-link block ${
+                                        pathname === item.href ||
                                         (item.href !== "/" && pathname.startsWith(item.href))
-                                        ? "active"
-                                        : ""
-                                        }`}
+                                            ? "active"
+                                            : ""
+                                    }`}
                                 >
                                     {item.label}
                                 </Link>

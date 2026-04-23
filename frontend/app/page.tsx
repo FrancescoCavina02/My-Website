@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Card from "@/components/ui/Card";
-import { Brain, GraduationCap, BookOpen, Quote, Mail, User } from "lucide-react";
+import { Brain, GraduationCap, BookOpen, Quote, Mail, User, Briefcase } from "lucide-react";
 
 export default function Home() {
   const navigationCards = [
@@ -10,6 +10,12 @@ export default function Home() {
       title: "About Me",
       description: "My background, interests, and what drives me",
       icon: <User className="w-8 h-8 text-[var(--color-accent)]" />,
+    },
+    {
+      href: "/experience",
+      title: "Experience",
+      description: "AI engineering and data platform infrastructure",
+      icon: <Briefcase className="w-8 h-8 text-[var(--color-accent)]" />,
     },
     {
       href: "/projects",
@@ -68,12 +74,12 @@ export default function Home() {
             <span className="text-white font-bold tracking-tight">Francesco Cavina</span>
           </h1>
           <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-6 font-light">
-            AI & Software Engineering Student | MSc AI Applicant @ UvA
+            AI Engineer & Data Engineering Intern | MSc AI Applicant @ UvA
           </p>
 
           {/* Introduction */}
           <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            I'm a Computer Science student based in Amsterdam, passionate about building intelligent systems that sit at the intersection of AI, philosophy, and human experience. I'm applying to the MSc Artificial Intelligence at UvA to deepen my expertise in NLP, reasoning systems, and machine learning theory. When I'm not coding, you'll find me at the pottery wheel, on a dodgeball court, or reading Stoic philosophy.
+            I'm currently building the core AI and data platform at Robodata — designing privacy-first, metadata-driven data pipelines, local LLM inference infrastructure, and self-service data tooling that enables enterprise clients to run production AI entirely within their own cloud environment. I'm applying to the MSc Artificial Intelligence at UvA to deepen my expertise in NLP and ML theory.
           </p>
 
           {/* CTA Buttons */}

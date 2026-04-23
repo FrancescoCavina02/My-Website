@@ -30,6 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# local env files
+.env*.local
+portfolio.db
+test_geist.ts
+
 # env files (can opt-in for committing if needed)
 .env*
 
