@@ -2,6 +2,7 @@
 Application configuration using Pydantic Settings.
 Validates environment variables on startup and provides type-safe access.
 """
+
 import os
 from pathlib import Path
 from typing import List
@@ -44,10 +45,7 @@ class Settings(BaseSettings):
     from_email: str = "noreply@francescocavina.com"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="ignore"
     )
 
     @field_validator("obsidian_vault_path")

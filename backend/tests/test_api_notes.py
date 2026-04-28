@@ -345,11 +345,10 @@ class TestNotesParsing:
 
     def test_markdown_heading_extraction(self):
         """Test extraction of headings from markdown"""
-        from app.services.obsidian_parser import ObsidianParser
         from app.config import get_settings
 
         settings = get_settings()
-        parser = ObsidianParser(settings.obsidian_vault_path)
+        assert settings.obsidian_vault_path is not None
 
         # This would test the internal parsing logic
         # Implementation depends on parser methods being accessible

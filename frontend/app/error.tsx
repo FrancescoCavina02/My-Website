@@ -29,7 +29,10 @@ export default function Error({
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-900 via-black to-indigo-900">
-      <Card className="max-w-2xl w-full p-8 text-center space-y-6 backdrop-blur-lg bg-gray-900/50 border-purple-500/30">
+      <Card
+        title="Something went wrong"
+        className="max-w-2xl w-full p-8 text-center space-y-6 backdrop-blur-lg bg-gray-900/50 border-purple-500/30"
+      >
         {/* Error Icon */}
         <div className="flex justify-center">
           <div className="w-20 h-20 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
@@ -50,12 +53,8 @@ export default function Error({
         {/* Error Details (Development Only) */}
         {process.env.NODE_ENV === "development" && (
           <div className="bg-gray-950/50 border border-gray-700 rounded-lg p-4 text-left">
-            <p className="text-red-400 font-mono text-sm font-semibold mb-2">
-              {error.message}
-            </p>
-            {error.digest && (
-              <p className="text-gray-500 text-xs">Error Digest: {error.digest}</p>
-            )}
+            <p className="text-red-400 font-mono text-sm font-semibold mb-2">{error.message}</p>
+            {error.digest && <p className="text-gray-500 text-xs">Error Digest: {error.digest}</p>}
             {error.stack && (
               <details className="mt-3">
                 <summary className="text-gray-400 text-xs cursor-pointer hover:text-gray-300">
@@ -71,11 +70,7 @@ export default function Error({
 
         {/* Action Buttons */}
         <div className="flex gap-4 justify-center flex-wrap">
-          <Button
-            onClick={reset}
-            variant="primary"
-            className="min-w-[120px]"
-          >
+          <Button onClick={reset} variant="primary" className="min-w-[120px]">
             Try Again
           </Button>
           <Button
@@ -87,7 +82,7 @@ export default function Error({
           </Button>
           <Button
             onClick={() => (window.location.href = "/")}
-            variant="outline"
+            variant="secondary"
             className="min-w-[120px]"
           >
             Go Home

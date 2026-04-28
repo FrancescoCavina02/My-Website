@@ -10,10 +10,11 @@ TF-IDF (Term Frequency - Inverse Document Frequency):
 - Score: TF * IDF (higher = more relevant)
 """
 
-import re
 import math
-from typing import Dict, List, Set, Tuple
+import re
 from collections import defaultdict
+from typing import Dict, List, Set, Tuple
+
 from app.models.note import Note
 
 
@@ -54,10 +55,30 @@ class SearchIndex:
         text = text.lower()
 
         # Remove punctuation and split
-        tokens = re.findall(r'\b\w+\b', text)
+        tokens = re.findall(r"\b\w+\b", text)
 
         # Filter short tokens and common stop words
-        stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'is', 'was', 'are', 'be'}
+        stop_words = {
+            "the",
+            "a",
+            "an",
+            "and",
+            "or",
+            "but",
+            "in",
+            "on",
+            "at",
+            "to",
+            "for",
+            "of",
+            "with",
+            "by",
+            "from",
+            "is",
+            "was",
+            "are",
+            "be",
+        }
         tokens = [t for t in tokens if len(t) >= 2 and t not in stop_words]
 
         return tokens
@@ -172,7 +193,8 @@ class SearchIndex:
             "document_count": self.document_count,
             "unique_terms": len(self.index),
             "total_postings": sum(len(postings) for postings in self.index.values()),
-            "avg_document_length": sum(len(terms) for terms in self.documents.values()) / max(self.document_count, 1),
+            "avg_document_length": sum(len(terms) for terms in self.documents.values())
+            / max(self.document_count, 1),
         }
 
     @classmethod
