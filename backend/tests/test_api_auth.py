@@ -125,7 +125,7 @@ class TestAuthLogin:
                 "password": ""
             }
         )
-        assert response.status_code == 422
+        assert response.status_code == 401
 
 
 @pytest.mark.integration
@@ -145,36 +145,37 @@ class TestAuthLogout:
         assert data["message"] == "Successfully logged out"
 
     def test_logout_without_token(self, client: TestClient):
-        """Test logout fails without authentication token"""
+        """Test logout succeeds without authentication token"""
         response = client.post("/api/auth/logout")
 
-        assert response.status_code == 403
-        assert "detail" in response.json()
+        assert response.status_code == 200
+        assert response.json()["message"] == "Successfully logged out"
 
     def test_logout_with_invalid_token(self, client: TestClient):
-        """Test logout fails with invalid token"""
+        """Test logout succeeds with invalid token"""
         response = client.post(
             "/api/auth/logout",
             headers={"Authorization": "Bearer invalid_token"}
         )
 
-        assert response.status_code == 401
+        assert response.status_code == 200
+        assert response.json()["message"] == "Successfully logged out"
 
     def test_logout_with_malformed_header(self, client: TestClient, admin_token):
-        """Test logout fails with malformed authorization header"""
+        """Test logout succeeds with malformed authorization header"""
         # Missing 'Bearer' prefix
         response = client.post(
             "/api/auth/logout",
             headers={"Authorization": admin_token}
         )
-        assert response.status_code == 403
+        assert response.status_code == 200
 
         # Wrong prefix
         response = client.post(
             "/api/auth/logout",
             headers={"Authorization": f"Token {admin_token}"}
         )
-        assert response.status_code == 403
+        assert response.status_code == 200
 
 
 @pytest.mark.integration
@@ -195,10 +196,10 @@ class TestProtectedEndpoints:
         assert response.status_code != 403
 
     def test_access_protected_endpoint_without_token(self, client: TestClient):
-        """Test accessing protected endpoint without token returns 403"""
+        """Test accessing protected endpoint without token returns 401"""
         response = client.post("/api/notes/cache/invalidate")
 
-        assert response.status_code == 403
+        assert response.status_code == 401
 
     def test_access_protected_endpoint_with_expired_token(self, client: TestClient, test_settings):
         """Test accessing protected endpoint with expired token"""

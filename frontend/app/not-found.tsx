@@ -14,7 +14,7 @@ import Card from "@/components/ui/Card";
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-900 via-black to-indigo-900">
-      <Card className="max-w-2xl w-full p-8 text-center space-y-6 backdrop-blur-lg bg-gray-900/50 border-purple-500/30">
+      <Card title="Page Not Found" className="max-w-2xl w-full p-8 text-center space-y-6 backdrop-blur-lg bg-gray-900/50 border-purple-500/30">
         {/* 404 Visual */}
         <div className="space-y-4">
           <h1 className="text-9xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
@@ -59,7 +59,7 @@ export default function NotFound() {
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline" className="min-w-[120px]">
+              <Button variant="secondary" className="min-w-[120px]">
                 ✉️ Contact
               </Button>
             </Link>
@@ -73,12 +73,12 @@ export default function NotFound() {
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/notes">
-              <Button variant="ghost" size="sm">
+              <Button variant="secondary" size="sm">
                 🔍 Search Notes
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="ghost" size="sm">
+              <Button variant="secondary" size="sm">
                 📧 Report Broken Link
               </Button>
             </Link>

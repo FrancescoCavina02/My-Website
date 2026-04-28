@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { submitContactForm } from "@/lib/api";
-import { Mail, Linkedin, Github, MessageSquare } from "lucide-react";
+import { GitBranch, Link2, Mail, MessageSquare } from "lucide-react";
 
 interface FormData {
     name: string;
@@ -98,7 +98,7 @@ export default function ContactPage() {
                                     className="flex items-center gap-4 text-[var(--color-text-secondary)] hover:text-white group transition-colors"
                                 >
                                     <div className="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.1)] flex items-center justify-center group-hover:border-[var(--color-accent)] group-hover:bg-[rgba(14,165,233,0.1)] transition-colors">
-                                        <Linkedin className="w-4 h-4 group-hover:text-[var(--color-accent)]" />
+                                        <Link2 className="w-4 h-4 group-hover:text-[var(--color-accent)]" />
                                     </div>
                                     <span className="font-medium">LinkedIn Profile</span>
                                 </a>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                                     className="flex items-center gap-4 text-[var(--color-text-secondary)] hover:text-white group transition-colors"
                                 >
                                     <div className="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.1)] flex items-center justify-center group-hover:border-[var(--color-accent)] group-hover:bg-[rgba(14,165,233,0.1)] transition-colors">
-                                        <Github className="w-4 h-4 group-hover:text-[var(--color-accent)]" />
+                                        <GitBranch className="w-4 h-4 group-hover:text-[var(--color-accent)]" />
                                     </div>
                                     <span className="font-medium">GitHub Repository</span>
                                 </a>
