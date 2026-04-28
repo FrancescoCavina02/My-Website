@@ -3,13 +3,14 @@ Authentication API Routes
 Login endpoint for admin authentication
 """
 
+import logging
 from datetime import timedelta
+
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, EmailStr
-import logging
 
-from app.middleware.auth import verify_admin_credentials, create_access_token
 from app.config import get_settings
+from app.middleware.auth import create_access_token, verify_admin_credentials
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -19,12 +20,14 @@ router = APIRouter()
 
 class LoginRequest(BaseModel):
     """Login request schema"""
+
     email: EmailStr
     password: str
 
 
 class LoginResponse(BaseModel):
     """Login response schema"""
+
     access_token: str
     token_type: str = "bearer"
     expires_in: int
@@ -58,15 +61,14 @@ async def login(credentials: LoginRequest):
     # Create access token
     access_token_expires = timedelta(minutes=settings.jwt_access_token_expire_minutes)
     access_token = create_access_token(
-        data={"sub": credentials.email},
-        expires_delta=access_token_expires
+        data={"sub": credentials.email}, expires_delta=access_token_expires
     )
 
     logger.info(f"Successful login for admin: {credentials.email}")
 
     return LoginResponse(
         access_token=access_token,
-        expires_in=settings.jwt_access_token_expire_minutes * 60  # Convert to seconds
+        expires_in=settings.jwt_access_token_expire_minutes * 60,  # Convert to seconds
     )
 
 

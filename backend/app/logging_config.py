@@ -14,8 +14,10 @@ Development mode: Pretty console output with colors
 
 import logging
 import sys
-import structlog
 from typing import Any
+
+import structlog
+
 from app.middleware.request_id import get_request_id
 
 

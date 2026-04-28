@@ -59,15 +59,17 @@ export default function Skeleton({
 /**
  * Skeleton Text - Multiple lines of text skeleton
  */
-export function SkeletonText({ lines = 3, className = "" }: { lines?: number; className?: string }) {
+export function SkeletonText({
+  lines = 3,
+  className = "",
+}: {
+  lines?: number;
+  className?: string;
+}) {
   return (
     <div className={`space-y-2 ${className}`}>
       {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton
-          key={i}
-          variant="text"
-          className={`${i === lines - 1 ? "w-2/3" : "w-full"}`}
-        />
+        <Skeleton key={i} variant="text" className={`${i === lines - 1 ? "w-2/3" : "w-full"}`} />
       ))}
     </div>
   );

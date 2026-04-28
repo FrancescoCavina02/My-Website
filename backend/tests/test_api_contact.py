@@ -21,7 +21,7 @@ class TestContactSubmission:
             "name": "John Doe",
             "email": "john@example.com",
             "subject": "Test Message",
-            "message": "This is a test message from the contact form."
+            "message": "This is a test message from the contact form.",
         }
 
         response = client.post("/api/contact/", json=contact_data)
@@ -33,13 +33,15 @@ class TestContactSubmission:
         assert "thank you" in data["message"].lower()
 
     @pytest.mark.asyncio
-    async def test_submit_contact_saves_to_database(self, client: TestClient, db_session: AsyncSession):
+    async def test_submit_contact_saves_to_database(
+        self, client: TestClient, db_session: AsyncSession
+    ):
         """Test that contact submission saves message to database"""
         contact_data = {
             "name": "Jane Smith",
             "email": "jane@example.com",
             "subject": "Database Test",
-            "message": "Testing database storage"
+            "message": "Testing database storage",
         }
 
         response = client.post("/api/contact/", json=contact_data)
@@ -64,7 +66,7 @@ class TestContactSubmission:
             "name": "Test User",
             "email": "test@example.com",
             "subject": "Metadata Test",
-            "message": "Testing metadata capture"
+            "message": "Testing metadata capture",
         }
 
         headers = {"User-Agent": "TestClient/1.0"}
@@ -78,7 +80,7 @@ class TestContactSubmission:
             "name": "Test User",
             "email": "not-an-email",
             "subject": "Test",
-            "message": "Message"
+            "message": "Message",
         }
 
         response = client.post("/api/contact/", json=contact_data)
@@ -87,35 +89,29 @@ class TestContactSubmission:
     def test_submit_contact_missing_fields(self, client: TestClient):
         """Test submission fails when required fields are missing"""
         # Missing name
-        response = client.post("/api/contact/", json={
-            "email": "test@example.com",
-            "subject": "Test",
-            "message": "Message"
-        })
+        response = client.post(
+            "/api/contact/",
+            json={"email": "test@example.com", "subject": "Test", "message": "Message"},
+        )
         assert response.status_code == 422
 
         # Missing email
-        response = client.post("/api/contact/", json={
-            "name": "Test",
-            "subject": "Test",
-            "message": "Message"
-        })
+        response = client.post(
+            "/api/contact/", json={"name": "Test", "subject": "Test", "message": "Message"}
+        )
         assert response.status_code == 422
 
         # Missing subject
-        response = client.post("/api/contact/", json={
-            "name": "Test",
-            "email": "test@example.com",
-            "message": "Message"
-        })
+        response = client.post(
+            "/api/contact/",
+            json={"name": "Test", "email": "test@example.com", "message": "Message"},
+        )
         assert response.status_code == 422
 
         # Missing message
-        response = client.post("/api/contact/", json={
-            "name": "Test",
-            "email": "test@example.com",
-            "subject": "Test"
-        })
+        response = client.post(
+            "/api/contact/", json={"name": "Test", "email": "test@example.com", "subject": "Test"}
+        )
         assert response.status_code == 422
 
     def test_submit_contact_empty_fields(self, client: TestClient):
@@ -124,7 +120,7 @@ class TestContactSubmission:
             "name": "",
             "email": "test@example.com",
             "subject": "Test",
-            "message": "Message"
+            "message": "Message",
         }
         response = client.post("/api/contact/", json=contact_data)
         assert response.status_code == 422
@@ -135,7 +131,7 @@ class TestContactSubmission:
             "name": "A" * 200,  # Very long name
             "email": "test@example.com",
             "subject": "B" * 300,  # Very long subject
-            "message": "C" * 5000  # Very long message
+            "message": "C" * 5000,  # Very long message
         }
 
         response = client.post("/api/contact/", json=contact_data)
@@ -149,7 +145,7 @@ class TestContactSubmission:
             "name": "João O'Brien-Smith",
             "email": "test+tag@example.com",
             "subject": "Test with émojis 🎉",
-            "message": "Message with <script>alert('xss')</script> and special chars: $, %, &"
+            "message": "Message with <script>alert('xss')</script> and special chars: $, %, &",
         }
 
         response = client.post("/api/contact/", json=contact_data)
@@ -167,7 +163,7 @@ class TestContactRateLimit:
             "name": "Spammer",
             "email": "spam@example.com",
             "subject": "Spam",
-            "message": "Spam message"
+            "message": "Spam message",
         }
 
         # First 5 requests should succeed
@@ -187,10 +183,7 @@ class TestGetContactMessages:
 
     @pytest.mark.asyncio
     async def test_get_messages_success(
-        self,
-        client: TestClient,
-        auth_headers: dict,
-        sample_contact_messages: list
+        self, client: TestClient, auth_headers: dict, sample_contact_messages: list
     ):
         """Test admin can retrieve all contact messages"""
         response = client.get("/api/contact/messages", headers=auth_headers)
@@ -224,18 +217,14 @@ class TestGetContactMessages:
     def test_get_messages_with_invalid_token(self, client: TestClient):
         """Test invalid token is rejected"""
         response = client.get(
-            "/api/contact/messages",
-            headers={"Authorization": "Bearer invalid_token"}
+            "/api/contact/messages", headers={"Authorization": "Bearer invalid_token"}
         )
 
         assert response.status_code == 401
 
     @pytest.mark.asyncio
     async def test_messages_ordered_by_newest(
-        self,
-        client: TestClient,
-        auth_headers: dict,
-        sample_contact_messages: list
+        self, client: TestClient, auth_headers: dict, sample_contact_messages: list
     ):
         """Test messages are returned newest first"""
         response = client.get("/api/contact/messages", headers=auth_headers)
@@ -272,32 +261,21 @@ class TestContactValidation:
 
         # Valid message
         valid_message = ContactMessage(
-            name="John Doe",
-            email="john@example.com",
-            subject="Test",
-            message="Test message"
+            name="John Doe", email="john@example.com", subject="Test", message="Test message"
         )
         assert valid_message.name == "John Doe"
         assert valid_message.email == "john@example.com"
 
         # Invalid email should raise ValidationError
         with pytest.raises(Exception):  # Pydantic ValidationError
-            ContactMessage(
-                name="John",
-                email="not-an-email",
-                subject="Test",
-                message="Test"
-            )
+            ContactMessage(name="John", email="not-an-email", subject="Test", message="Test")
 
     def test_database_model_defaults(self):
         """Test ContactMessageDB model has correct defaults"""
         from datetime import datetime
 
         msg = ContactMessageDB(
-            name="Test",
-            email="test@example.com",
-            subject="Test",
-            message="Test message"
+            name="Test", email="test@example.com", subject="Test", message="Test message"
         )
 
         # Default values

@@ -119,11 +119,10 @@ class TestQuotesParsing:
 
     def test_quote_format_parsing(self):
         """Test parsing quotes from markdown blockquote format"""
-        from app.services.quote_service import QuoteService
         from app.config import get_settings
 
         settings = get_settings()
-        service = QuoteService(settings.obsidian_vault_path)
+        assert settings.obsidian_vault_path is not None
 
         # This would test internal parsing logic
         # Verify it can extract:
@@ -171,10 +170,7 @@ class TestQuotesCaching:
         assert response1.status_code == 200
 
         # Invalidate cache
-        invalidate_response = client.post(
-            "/api/notes/cache/invalidate",
-            headers=auth_headers
-        )
+        invalidate_response = client.post("/api/notes/cache/invalidate", headers=auth_headers)
         assert invalidate_response.status_code == 200
 
         # Get quote again (should re-parse)

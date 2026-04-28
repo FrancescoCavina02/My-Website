@@ -43,7 +43,7 @@ jobs:
           DEBUG=true
           CORS_ORIGINS=http://localhost:3000
           CACHE_TTL=60
-          JWT_SECRET_KEY=test-secret-key-for-ci-only
+          JWT_SECRET_KEY=ci-test-only-do-not-use-in-production-aabbccddeeff0011
           JWT_ALGORITHM=HS256
           JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
           ADMIN_EMAIL=test@example.com

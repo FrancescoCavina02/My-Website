@@ -40,7 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]" suppressHydrationWarning>
+      <body
+        className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]"
+        suppressHydrationWarning
+      >
         <ErrorBoundary>
           <Header />
           <main id="main-content" className="flex-grow" role="main">
