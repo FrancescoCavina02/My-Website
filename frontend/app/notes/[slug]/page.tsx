@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchNote, searchNotes, Note } from "@/lib/api";
+import NoteSkeleton from "@/components/loading/NoteSkeleton";
 
 export default function NotePage() {
     const params = useParams();
@@ -13,20 +14,25 @@ export default function NotePage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
+    const loadNote = useCallback(async () => {
         if (!slug) return;
 
         setLoading(true);
-        fetchNote(slug)
-            .then((data) => {
-                setNote(data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setError("Could not load note.");
-                setLoading(false);
-            });
+        setError(null);
+        try {
+            const data = await fetchNote(slug);
+            setNote(data);
+        } catch {
+            setError("Notes are currently unavailable. The server may be waking up — please try again in a moment.");
+            setNote(null);
+        } finally {
+            setLoading(false);
+        }
     }, [slug]);
+
+    useEffect(() => {
+        void loadNote();
+    }, [loadNote]);
 
     // Handle wiki link click
     const handleWikiLinkClick = async (linkText: string) => {
@@ -46,8 +52,12 @@ export default function NotePage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-[var(--color-accent-500)] border-t-transparent rounded-full animate-spin" />
+            <div className="min-h-screen">
+                <section className="section">
+                    <div className="max-w-4xl mx-auto">
+                        <NoteSkeleton />
+                    </div>
+                </section>
             </div>
         );
     }
@@ -56,10 +66,14 @@ export default function NotePage() {
         return (
             <div className="min-h-screen">
                 <section className="section text-center">
-                    <h1 className="text-2xl mb-4">Note Not Found</h1>
-                    <Link href="/notes" className="btn btn-secondary">
-                        Back to Notes
-                    </Link>
+                    <h1 className="text-2xl mb-4">Notes</h1>
+                    <p className="text-[var(--color-text-secondary)] mb-4">{error}</p>
+                    <div className="flex items-center justify-center gap-3">
+                        <button onClick={loadNote} className="btn btn-secondary">Retry</button>
+                        <Link href="/notes" className="btn btn-secondary">
+                            Back to Notes
+                        </Link>
+                    </div>
                 </section>
             </div>
         );

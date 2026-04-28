@@ -45,6 +45,5 @@ export const categories = [
   { id: "all", label: "All Projects" },
   { id: "ai", label: "AI & ML" },
   { id: "web", label: "Web Development" },
-  { id: "podcast", label: "Podcasts" },
   { id: "other", label: "Other" },
 ];

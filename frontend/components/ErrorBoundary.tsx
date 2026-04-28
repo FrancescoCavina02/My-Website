@@ -106,7 +106,7 @@ export class ErrorBoundary extends Component<Props, State> {
               >
                 Reload Page
               </Button>
-              <Button onClick={() => (window.location.href = "/")} variant="outline">
+              <Button onClick={() => (window.location.href = "/")} variant="secondary">
                 Go Home
               </Button>
             </div>

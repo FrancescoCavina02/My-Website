@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface CardProps {
-    title: string;
+    title?: string;
     description?: string;
     href?: string;
     icon?: React.ReactNode;
@@ -36,9 +36,11 @@ export default function Card({
                     {icon}
                 </div>
             )}
-            <h3 className="text-lg font-semibold mb-2 text-[var(--color-text-primary)]">
-                {title}
-            </h3>
+            {title && (
+                <h3 className="text-lg font-semibold mb-2 text-[var(--color-text-primary)]">
+                    {title}
+                </h3>
+            )}
             {description && (
                 <p className="text-[var(--color-text-secondary)] text-sm mb-3">
                     {description}

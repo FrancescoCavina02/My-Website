@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchRandomQuote, fetchQuoteCategories, Quote } from "@/lib/api";
-import Button from "@/components/ui/Button";
 import { QuoteSkeleton } from "@/components/loading/NoteSkeleton";
 import { Quote as QuoteIcon, Copy, Check } from "lucide-react";
+
+const BACKEND_ERROR_MESSAGE = "Notes are currently unavailable. The server may be waking up — please try again in a moment.";
 
 export default function QuotesPage() {
     const [quote, setQuote] = useState<Quote | null>(null);
@@ -14,15 +15,20 @@ export default function QuotesPage() {
     const [error, setError] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
 
-    // Fetch categories on mount
-    useEffect(() => {
-        fetchQuoteCategories()
-            .then(setCategories)
-            .catch(() => {
-                // If backend is not running, show placeholder categories
-                setCategories(["Spiritual", "Self-Help", "Science", "Philosophy"]);
-            });
+    const loadCategories = useCallback(async () => {
+        try {
+            const fetchedCategories = await fetchQuoteCategories();
+            setCategories(fetchedCategories);
+            setError(null);
+        } catch {
+            setCategories([]);
+            setError(BACKEND_ERROR_MESSAGE);
+        }
     }, []);
+
+    useEffect(() => {
+        void loadCategories();
+    }, [loadCategories]);
 
     const generateQuote = async () => {
         setIsLoading(true);
@@ -34,20 +40,17 @@ export default function QuotesPage() {
                 selectedCategory || undefined
             );
             setQuote(newQuote);
-        } catch (err) {
-            setError(
-                "Could not fetch quotes. The backend service may be loading."
-            );
-            // Show a placeholder quote for demo purposes
-            setQuote({
-                text: "The impediment to action advances action. What stands in the way becomes the way.",
-                source: "Marcus Aurelius",
-                category: selectedCategory || "Philosophy",
-                book: "Meditations",
-            });
+        } catch {
+            setError(BACKEND_ERROR_MESSAGE);
+            setQuote(null);
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const retry = async () => {
+        await loadCategories();
+        await generateQuote();
     };
 
     const copyToClipboard = () => {
@@ -62,7 +65,6 @@ export default function QuotesPage() {
         <div className="min-h-screen">
             <section className="section">
                 <div className="max-w-3xl mx-auto">
-                    {/* Page Header */}
                     <div className="mb-12 text-center flex flex-col items-center">
                         <QuoteIcon className="w-8 h-8 text-[var(--color-accent)] mb-4 opacity-80" />
                         <h1 className="mb-4 text-white">
@@ -73,7 +75,6 @@ export default function QuotesPage() {
                         </p>
                     </div>
 
-                    {/* Category Selection */}
                     <div className="mb-8 text-center">
                         <div className="flex flex-wrap justify-center gap-2">
                             <button
@@ -102,7 +103,6 @@ export default function QuotesPage() {
                         </div>
                     </div>
 
-                    {/* Generate Button Wrapper */}
                     <div className="text-center mb-12">
                         <button
                             onClick={generateQuote}
@@ -113,18 +113,15 @@ export default function QuotesPage() {
                         </button>
                     </div>
 
-                    {/* Quote Display Area */}
                     <div className="min-h-[250px]">
                         {isLoading ? (
                             <QuoteSkeleton />
                         ) : quote ? (
                             <div className="card border-l-[3px] border-[var(--color-accent)] relative p-8 md:p-12 text-center animate-fade-in-up">
-                                {/* Quote Text */}
                                 <blockquote className="text-xl md:text-3xl text-white leading-relaxed mb-8 italic font-light">
                                     "{quote.text}"
                                 </blockquote>
 
-                                {/* Attribution */}
                                 <div className="flex flex-col items-center">
                                     <p className="text-[var(--color-accent)] font-semibold tracking-wider uppercase text-sm">
                                         — {quote.source}
@@ -136,7 +133,6 @@ export default function QuotesPage() {
                                     )}
                                 </div>
 
-                                {/* Copy Button */}
                                 <button
                                     onClick={copyToClipboard}
                                     className="absolute top-4 right-4 p-2 text-[var(--color-text-muted)] hover:text-white transition-colors"
@@ -150,11 +146,11 @@ export default function QuotesPage() {
                                 <p className="font-light">Select a category and generate a quote.</p>
                             </div>
                         )}
-                        
-                        {/* Error Message */}
+
                         {error && (
                             <div className="text-center text-sm text-[var(--color-text-muted)] mt-6 p-4 border border-[rgba(255,255,255,0.05)] rounded-lg bg-[rgba(255,255,255,0.02)]">
-                                {error}
+                                <p>{error}</p>
+                                <button onClick={retry} className="mt-3 btn btn-secondary">Retry</button>
                             </div>
                         )}
                     </div>

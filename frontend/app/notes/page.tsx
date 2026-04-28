@@ -10,7 +10,7 @@ import {
     Note,
     NoteMetadata,
 } from "@/lib/api";
-import CardSkeleton, { BookCardSkeleton, SearchCardSkeleton } from "@/components/loading/CardSkeleton";
+import CardSkeleton, { SearchCardSkeleton } from "@/components/loading/CardSkeleton";
 import NoteSkeleton from "@/components/loading/NoteSkeleton";
 
 type ViewLevel = "categories" | "books" | "note";
@@ -23,6 +23,8 @@ interface NavigationState {
     noteId: string | null;
     noteHistoryIds: string[];
 }
+
+const BACKEND_ERROR_MESSAGE = "Notes are currently unavailable. The server may be waking up — please try again in a moment.";
 
 export default function NotesPage() {
     const searchParams = useSearchParams();
@@ -158,18 +160,22 @@ export default function NotesPage() {
         setSearchQuery("");
     }, []);
 
-    // Fetch vault structure
-    useEffect(() => {
-        fetchVaultStructure()
-            .then((data) => {
-                setStructure(data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setError("Notes are synced from my personal Obsidian vault. If you're seeing this, the backend service may be loading. Check back shortly.");
-                setLoading(false);
-            });
+    const loadVaultStructure = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await fetchVaultStructure();
+            setStructure(data);
+        } catch {
+            setError(BACKEND_ERROR_MESSAGE);
+        } finally {
+            setLoading(false);
+        }
     }, []);
+
+    useEffect(() => {
+        void loadVaultStructure();
+    }, [loadVaultStructure]);
 
     // Search handler
     useEffect(() => {
@@ -410,24 +416,28 @@ export default function NotesPage() {
                                         <button
                                             key={note.id}
                                             onClick={async () => {
-                                                setSelectedCategory(note.category);
-                                                setSelectedBook(note.book || null);
-                                                setViewLevel("note");
-                                                setNoteHistory([]);
-                                                setNoteLoading(true);
-                                                const fullNote = await fetchNote(note.id);
-                                                setCurrentNote(fullNote);
-                                                setNoteLoading(false);
-                                                setSearchQuery("");
+                                                try {
+                                                    setSelectedCategory(note.category);
+                                                    setSelectedBook(note.book || null);
+                                                    setViewLevel("note");
+                                                    setNoteHistory([]);
+                                                    setNoteLoading(true);
+                                                    const fullNote = await fetchNote(note.id);
+                                                    setCurrentNote(fullNote);
+                                                    setSearchQuery("");
 
-                                                // Push state to browser history
-                                                pushNavigationState({
-                                                    viewLevel: "note",
-                                                    selectedCategory: note.category,
-                                                    selectedBook: note.book || null,
-                                                    noteId: fullNote.id,
-                                                    noteHistoryIds: [],
-                                                });
+                                                    pushNavigationState({
+                                                        viewLevel: "note",
+                                                        selectedCategory: note.category,
+                                                        selectedBook: note.book || null,
+                                                        noteId: fullNote.id,
+                                                        noteHistoryIds: [],
+                                                    });
+                                                } catch {
+                                                    setError(BACKEND_ERROR_MESSAGE);
+                                                } finally {
+                                                    setNoteLoading(false);
+                                                }
                                             }}
                                             className="card text-left"
                                         >
@@ -461,7 +471,8 @@ export default function NotesPage() {
 
                     {error && (
                         <div className="text-center py-12 text-[var(--color-text-muted)] border border-[rgba(255,255,255,0.05)] rounded-lg bg-[rgba(255,255,255,0.02)]">
-                            {error}
+                            <p>{error}</p>
+                            <button onClick={loadVaultStructure} className="mt-4 btn btn-secondary">Retry</button>
                         </div>
                     )}
 

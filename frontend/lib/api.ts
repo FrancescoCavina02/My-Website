@@ -2,9 +2,43 @@
  * API Client for Portfolio Backend
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+function getApiBaseUrl(): string {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL;
+    const fallbackUrl = "http://localhost:8000";
 
-// Types
+    if (typeof window !== "undefined") {
+        const isLocalhost =
+            window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1";
+
+        if (!envUrl && !isLocalhost) {
+            console.warn("[API] NEXT_PUBLIC_API_URL is not set. API calls will target localhost:8000 which will fail in production. Set this variable in your Netlify dashboard.");
+        }
+    }
+
+    return envUrl || fallbackUrl;
+}
+
+async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    try {
+        const response = await fetch(`${getApiBaseUrl()}${path}`, {
+            ...init,
+            signal: controller.signal,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Request failed: ${response.status}`);
+        }
+
+        return response.json() as Promise<T>;
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
 export interface NoteMetadata {
     id: string;
     title: string;
@@ -79,12 +113,8 @@ export interface NoteStats {
     total_words: number;
 }
 
-// API Functions
-
 export async function fetchVaultStructure(): Promise<VaultStructure> {
-    const response = await fetch(`${API_BASE_URL}/api/notes/structure`);
-    if (!response.ok) throw new Error("Failed to fetch vault structure");
-    return response.json();
+    return apiFetch<VaultStructure>("/api/notes/structure");
 }
 
 export async function fetchNotes(
@@ -97,15 +127,11 @@ export async function fetchNotes(
     if (book) params.set("book", book);
     params.set("limit", String(limit));
 
-    const response = await fetch(`${API_BASE_URL}/api/notes?${params}`);
-    if (!response.ok) throw new Error("Failed to fetch notes");
-    return response.json();
+    return apiFetch<NoteMetadata[]>(`/api/notes?${params}`);
 }
 
 export async function fetchNote(noteId: string): Promise<Note> {
-    const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`);
-    if (!response.ok) throw new Error("Note not found");
-    return response.json();
+    return apiFetch<Note>(`/api/notes/${noteId}`);
 }
 
 export async function fetchBookTree(book: string): Promise<{
@@ -114,9 +140,7 @@ export async function fetchBookTree(book: string): Promise<{
     tree?: NoteTree;
     notes?: { id: string; title: string }[];
 }> {
-    const response = await fetch(`${API_BASE_URL}/api/notes/tree/${encodeURIComponent(book)}`);
-    if (!response.ok) throw new Error("Failed to fetch book tree");
-    return response.json();
+    return apiFetch(`/api/notes/tree/${encodeURIComponent(book)}`);
 }
 
 export async function searchNotes(
@@ -124,57 +148,43 @@ export async function searchNotes(
     limit = 20
 ): Promise<NoteMetadata[]> {
     const params = new URLSearchParams({ q: query, limit: String(limit) });
-    const response = await fetch(`${API_BASE_URL}/api/notes/search?${params}`);
-    if (!response.ok) throw new Error("Search failed");
-    return response.json();
+    return apiFetch<NoteMetadata[]>(`/api/notes/search?${params}`);
 }
 
 export async function fetchNoteStats(): Promise<NoteStats> {
-    const response = await fetch(`${API_BASE_URL}/api/notes/stats`);
-    if (!response.ok) throw new Error("Failed to fetch stats");
-    return response.json();
+    return apiFetch<NoteStats>("/api/notes/stats");
 }
 
 export async function fetchCategories(): Promise<string[]> {
-    const response = await fetch(`${API_BASE_URL}/api/notes/categories`);
-    if (!response.ok) throw new Error("Failed to fetch categories");
-    return response.json();
+    return apiFetch<string[]>("/api/notes/categories");
 }
 
 export async function fetchBooks(category?: string): Promise<string[]> {
     const params = new URLSearchParams();
     if (category) params.set("category", category);
 
-    const response = await fetch(`${API_BASE_URL}/api/notes/books?${params}`);
-    if (!response.ok) throw new Error("Failed to fetch books");
-    return response.json();
+    return apiFetch<string[]>(`/api/notes/books?${params}`);
 }
 
 export async function fetchQuoteCategories(): Promise<string[]> {
-    const response = await fetch(`${API_BASE_URL}/api/quotes/categories`);
-    if (!response.ok) throw new Error("Failed to fetch quote categories");
-    return response.json();
+    return apiFetch<string[]>("/api/quotes/categories");
 }
 
 export async function fetchRandomQuote(category?: string): Promise<Quote> {
     const params = new URLSearchParams();
     if (category) params.set("category", category);
 
-    const response = await fetch(
-        `${API_BASE_URL}/api/quotes/random?${params}`
-    );
-    if (!response.ok) throw new Error("Failed to fetch quote");
-    return response.json();
+    return apiFetch<Quote>(`/api/quotes/random?${params}`);
 }
 
 export async function submitContactForm(
     data: ContactMessage
 ): Promise<{ success: boolean; message: string }> {
-    const response = await fetch(`${API_BASE_URL}/api/contact`, {
+    return apiFetch<{ success: boolean; message: string }>("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
     });
-    if (!response.ok) throw new Error("Failed to submit contact form");
-    return response.json();
 }
+
+export { getApiBaseUrl };

@@ -1,32 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "Francesco Cavina — AI & Software Engineering",
   description:
-    "Personal portfolio of Francesco Cavina, Computer Science student at [FILL IN University], MSc AI applicant at UvA. Projects in RAG, NLP, LLMs, and full-stack development.",
+    "Personal portfolio of Francesco Cavina featuring AI projects, engineering work, notes, and full-stack development.",
   keywords: ["AI", "Machine Learning", "NLP", "RAG", "Next.js", "FastAPI", "Portfolio"],
   authors: [{ name: "Francesco Cavina" }],
   openGraph: {
     title: "Francesco Cavina — AI & Software Engineering",
     description: "AI projects, personal notes, and software engineering work.",
-    url: "https://[FILL IN DOMAIN].com",
+    url: "https://francescocavina.com",
     siteName: "Francesco Cavina",
     type: "website",
     locale: "en_US",
@@ -39,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en">
       <body className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]" suppressHydrationWarning>
         <ErrorBoundary>
           <Header />
