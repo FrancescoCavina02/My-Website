@@ -73,7 +73,7 @@ export class ErrorBoundary extends Component<Props, State> {
       // Default fallback UI
       return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-900 via-black to-indigo-900">
-          <Card className="max-w-2xl w-full p-8 text-center space-y-6">
+          <Card title="Something Went Wrong" className="max-w-2xl w-full p-8 text-center space-y-6">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold text-red-400">
                 ⚠️ Something Went Wrong
@@ -106,7 +106,7 @@ export class ErrorBoundary extends Component<Props, State> {
               >
                 Reload Page
               </Button>
-              <Button onClick={() => (window.location.href = "/")} variant="outline">
+              <Button onClick={() => (window.location.href = "/")} variant="secondary">
                 Go Home
               </Button>
             </div>
@@ -141,7 +141,7 @@ export function ErrorFallback({
 }) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="max-w-md w-full p-6 text-center space-y-4">
+      <Card title="Unexpected Error" className="max-w-md w-full p-6 text-center space-y-4">
         <h2 className="text-2xl font-bold text-red-400">Error Occurred</h2>
         <p className="text-gray-400">{error.message}</p>
         <Button onClick={resetError}>Try Again</Button>

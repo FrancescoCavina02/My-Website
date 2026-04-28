@@ -29,7 +29,7 @@ export default function Error({
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-900 via-black to-indigo-900">
-      <Card className="max-w-2xl w-full p-8 text-center space-y-6 backdrop-blur-lg bg-gray-900/50 border-purple-500/30">
+      <Card title="Something Went Wrong" className="max-w-2xl w-full p-8 text-center space-y-6 backdrop-blur-lg bg-gray-900/50 border-purple-500/30">
         {/* Error Icon */}
         <div className="flex justify-center">
           <div className="w-20 h-20 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
@@ -87,7 +87,7 @@ export default function Error({
           </Button>
           <Button
             onClick={() => (window.location.href = "/")}
-            variant="outline"
+            variant="secondary"
             className="min-w-[120px]"
           >
             Go Home
