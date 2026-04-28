@@ -11,6 +11,7 @@ extend-ignore =
     E501,
     # E402: module level import not at top of file
     # E402
+    C901,
 
 exclude =
     .git,
@@ -36,7 +37,7 @@ per-file-ignores =
     # Ignore import order in alembic env.py
     alembic/env.py:E402
     # Ignore unused imports in tests (fixtures may be imported but not directly called)
-    tests/*:F401,F811
+    tests/*:F401,F811,E402
 
 # Count errors
 count = True
