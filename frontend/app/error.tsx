@@ -50,12 +50,8 @@ export default function Error({
         {/* Error Details (Development Only) */}
         {process.env.NODE_ENV === "development" && (
           <div className="bg-gray-950/50 border border-gray-700 rounded-lg p-4 text-left">
-            <p className="text-red-400 font-mono text-sm font-semibold mb-2">
-              {error.message}
-            </p>
-            {error.digest && (
-              <p className="text-gray-500 text-xs">Error Digest: {error.digest}</p>
-            )}
+            <p className="text-red-400 font-mono text-sm font-semibold mb-2">{error.message}</p>
+            {error.digest && <p className="text-gray-500 text-xs">Error Digest: {error.digest}</p>}
             {error.stack && (
               <details className="mt-3">
                 <summary className="text-gray-400 text-xs cursor-pointer hover:text-gray-300">
@@ -71,11 +67,7 @@ export default function Error({
 
         {/* Action Buttons */}
         <div className="flex gap-4 justify-center flex-wrap">
-          <Button
-            onClick={reset}
-            variant="primary"
-            className="min-w-[120px]"
-          >
+          <Button onClick={reset} variant="primary" className="min-w-[120px]">
             Try Again
           </Button>
           <Button

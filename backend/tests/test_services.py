@@ -4,8 +4,8 @@ Tests cache service, Obsidian parser, and quote service.
 """
 
 import time
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 
@@ -131,7 +131,7 @@ class TestCacheService:
 
     def test_cache_singleton_behavior(self):
         """Test that cache service acts as singleton"""
-        from app.services.cache_service import cache_service, CacheService
+        from app.services.cache_service import CacheService, cache_service
 
         # Get the singleton instance
         cache1 = cache_service

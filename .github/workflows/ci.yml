@@ -43,7 +43,7 @@ jobs:
           DEBUG=true
           CORS_ORIGINS=http://localhost:3000
           CACHE_TTL=60
-          JWT_SECRET_KEY=test-secret-key-for-ci-only
+          JWT_SECRET_KEY=ci-test-only-do-not-use-in-production-aabbccddeeff0011
           JWT_ALGORITHM=HS256
           JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
           ADMIN_EMAIL=test@example.com
@@ -93,7 +93,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run black (format check)
-        run: black --check .
+        run: black --check --target-version py312 .
 
       - name: Run isort (import order check)
         run: isort --check-only .

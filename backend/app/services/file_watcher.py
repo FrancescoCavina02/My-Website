@@ -6,12 +6,13 @@ Uses watchdog library for efficient file system monitoring with debouncing.
 """
 
 import time
-import structlog
 from pathlib import Path
-from typing import Set, Optional, Callable
-from threading import Thread, Event, Lock
+from threading import Event, Lock, Thread
+from typing import Callable, Optional, Set
+
+import structlog
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileSystemEvent
 
 from app.services.cache_service import cache_service
 
@@ -45,16 +46,16 @@ class VaultFileHandler(FileSystemEventHandler):
     def on_any_event(self, event: FileSystemEvent) -> None:
         """Handle any file system event"""
         # Only care about .md files
-        if not event.src_path.endswith('.md'):
+        if not event.src_path.endswith(".md"):
             return
 
         # Skip temporary files and hidden files
         path = Path(event.src_path)
-        if path.name.startswith('.') or path.name.startswith('~'):
+        if path.name.startswith(".") or path.name.startswith("~"):
             return
 
         # Skip excluded directories
-        excluded_dirs = {'.obsidian', 'templates', 'Archive', '.trash', 'Excalidraw'}
+        excluded_dirs = {".obsidian", "templates", "Archive", ".trash", "Excalidraw"}
         if any(excluded in event.src_path for excluded in excluded_dirs):
             return
 
@@ -153,7 +154,9 @@ class FileWatcherService:
             return
 
         if not self.vault_path.exists():
-            logger.error(f"Cannot start file watcher: vault path does not exist - {self.vault_path}")
+            logger.error(
+                f"Cannot start file watcher: vault path does not exist - {self.vault_path}"
+            )
             return
 
         try:

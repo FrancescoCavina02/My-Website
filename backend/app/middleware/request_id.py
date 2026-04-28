@@ -9,10 +9,11 @@ The request ID is:
 """
 
 import uuid
+from contextvars import ContextVar
+
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
-from contextvars import ContextVar
 
 # Context variable to store request ID for the current request
 # This is thread-safe and works with async

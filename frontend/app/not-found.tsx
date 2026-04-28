@@ -27,20 +27,16 @@ export default function NotFound() {
 
         {/* Error Message */}
         <div className="space-y-2">
-          <h2 className="text-3xl font-bold text-white">
-            Lost in the Cosmos
-          </h2>
+          <h2 className="text-3xl font-bold text-white">Lost in the Cosmos</h2>
           <p className="text-gray-400 text-lg max-w-md mx-auto">
-            This page has drifted into the void. It might have been moved,
-            deleted, or never existed in this universe.
+            This page has drifted into the void. It might have been moved, deleted, or never existed
+            in this universe.
           </p>
         </div>
 
         {/* Navigation Options */}
         <div className="space-y-4 pt-4">
-          <p className="text-gray-500 text-sm">
-            Here are some places you might want to explore:
-          </p>
+          <p className="text-gray-500 text-sm">Here are some places you might want to explore:</p>
 
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/">
@@ -68,9 +64,7 @@ export default function NotFound() {
 
         {/* Search or Report */}
         <div className="pt-6 border-t border-gray-800 space-y-3">
-          <p className="text-sm text-gray-500">
-            Looking for something specific?
-          </p>
+          <p className="text-sm text-gray-500">Looking for something specific?</p>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/notes">
               <Button variant="ghost" size="sm">
