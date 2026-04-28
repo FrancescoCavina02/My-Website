@@ -35,7 +35,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "connect-src 'self' http://localhost:* http://127.0.0.1:*",
             "frame-ancestors 'none'",
             "base-uri 'self'",
-            "form-action 'self'"
+            "form-action 'self'",
         ]
         response.headers["Content-Security-Policy"] = "; ".join(csp_directives)
 
@@ -61,7 +61,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "usb=()",
             "magnetometer=()",
             "gyroscope=()",
-            "accelerometer=()"
+            "accelerometer=()",
         ]
         response.headers["Permissions-Policy"] = ", ".join(permissions)
 

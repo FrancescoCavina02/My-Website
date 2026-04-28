@@ -2,9 +2,11 @@
 SQLAlchemy model for contact messages.
 Stores contact form submissions in the database.
 """
+
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, DateTime, Integer, String, Text
+
 from app.database import Base
 
 
@@ -35,5 +37,5 @@ class ContactMessageDB(Base):
             "subject": self.subject,
             "message": self.message,
             "created_at": self.created_at.isoformat() if self.created_at else None,
-            "read": bool(self.read)
+            "read": bool(self.read),
         }

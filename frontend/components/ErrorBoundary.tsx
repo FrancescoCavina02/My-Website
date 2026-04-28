@@ -75,9 +75,7 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-900 via-black to-indigo-900">
           <Card className="max-w-2xl w-full p-8 text-center space-y-6">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold text-red-400">
-                ⚠️ Something Went Wrong
-              </h1>
+              <h1 className="text-4xl font-bold text-red-400">⚠️ Something Went Wrong</h1>
               <p className="text-gray-400 text-lg">
                 We encountered an unexpected error. Don&apos;t worry, this has been logged.
               </p>
@@ -100,10 +98,7 @@ export class ErrorBoundary extends Component<Props, State> {
               <Button onClick={this.handleReset} variant="primary">
                 Try Again
               </Button>
-              <Button
-                onClick={() => window.location.reload()}
-                variant="secondary"
-              >
+              <Button onClick={() => window.location.reload()} variant="secondary">
                 Reload Page
               </Button>
               <Button onClick={() => (window.location.href = "/")} variant="outline">
@@ -132,13 +127,7 @@ export class ErrorBoundary extends Component<Props, State> {
  *
  * Can be used as a custom fallback for ErrorBoundary
  */
-export function ErrorFallback({
-  error,
-  resetError,
-}: {
-  error: Error;
-  resetError: () => void;
-}) {
+export function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="max-w-md w-full p-6 text-center space-y-4">

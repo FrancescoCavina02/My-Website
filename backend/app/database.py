@@ -3,6 +3,7 @@ Database session management for SQLAlchemy.
 Provides async database session for FastAPI dependency injection.
 Supports both PostgreSQL (asyncpg) and SQLite (aiosqlite).
 """
+
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -21,17 +22,9 @@ elif database_url.startswith("sqlite:///"):
     database_url = database_url.replace("sqlite:///", "sqlite+aiosqlite:///", 1)
 
 # Create async engine for both PostgreSQL and SQLite
-engine = create_async_engine(
-    database_url,
-    echo=settings.debug,
-    future=True
-)
+engine = create_async_engine(database_url, echo=settings.debug, future=True)
 
-AsyncSessionLocal = async_sessionmaker(
-    engine,
-    class_=AsyncSession,
-    expire_on_commit=False
-)
+AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 # Base class for SQLAlchemy models
 Base = declarative_base()

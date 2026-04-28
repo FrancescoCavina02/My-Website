@@ -13,7 +13,7 @@ import bcrypt
 import pytest
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
 from app.config import Settings, get_settings
@@ -37,10 +37,7 @@ class TestSettings(Settings):
     admin_password_hash: str = ""  # Will be set in fixture
     obsidian_vault_path: str = ""  # Will be set in fixture
 
-    model_config = {
-        "extra": "allow",
-        "validate_assignment": True
-    }
+    model_config = {"extra": "allow", "validate_assignment": True}
 
     def get_cors_origins_list(self) -> list:
         return [origin.strip() for origin in self.cors_origins.split(",")]
@@ -55,7 +52,7 @@ def test_password() -> str:
 @pytest.fixture(scope="session")
 def test_password_hash(test_password: str) -> str:
     """Generate bcrypt hash for test password"""
-    return bcrypt.hashpw(test_password.encode('utf-8'), bcrypt.gensalt(rounds=4)).decode('utf-8')
+    return bcrypt.hashpw(test_password.encode("utf-8"), bcrypt.gensalt(rounds=4)).decode("utf-8")
 
 
 @pytest.fixture(scope="session")
@@ -81,7 +78,8 @@ def mock_vault(tmp_path_factory) -> Path:
     philosophy_dir.mkdir()
 
     # Create sample notes
-    (programming_dir / "Python Basics.md").write_text("""# Python Basics
+    (programming_dir / "Python Basics.md").write_text(
+        """# Python Basics
 
 ## Introduction
 Python is a high-level programming language.
@@ -98,9 +96,11 @@ def hello_world():
 ```
 
 #programming #python
-""")
+"""
+    )
 
-    (programming_dir / "FastAPI Guide.md").write_text("""# FastAPI Guide
+    (programming_dir / "FastAPI Guide.md").write_text(
+        """# FastAPI Guide
 
 FastAPI is a modern web framework for building APIs with Python.
 
@@ -117,9 +117,11 @@ async def root():
 ```
 
 #programming #fastapi #api
-""")
+"""
+    )
 
-    (philosophy_dir / "Stoicism.md").write_text("""# Stoicism
+    (philosophy_dir / "Stoicism.md").write_text(
+        """# Stoicism
 
 ## Overview
 Stoicism is an ancient Greek philosophy focusing on virtue and wisdom.
@@ -135,9 +137,11 @@ Stoicism is an ancient Greek philosophy focusing on virtue and wisdom.
 - Epictetus
 
 #philosophy #stoicism
-""")
+"""
+    )
 
-    (vault_path / "quotes.md").write_text("""# Favorite Quotes
+    (vault_path / "quotes.md").write_text(
+        """# Favorite Quotes
 
 > The obstacle is the way.
 > — Marcus Aurelius
@@ -147,7 +151,8 @@ Stoicism is an ancient Greek philosophy focusing on virtue and wisdom.
 
 > It is not death that a man should fear, but he should fear never beginning to live.
 > — Marcus Aurelius
-""")
+"""
+    )
 
     return vault_path
 
@@ -156,8 +161,7 @@ Stoicism is an ancient Greek philosophy focusing on virtue and wisdom.
 def test_settings(test_password_hash: str, mock_vault: Path) -> TestSettings:
     """Override application settings for testing"""
     settings = TestSettings(
-        admin_password_hash=test_password_hash,
-        obsidian_vault_path=str(mock_vault)
+        admin_password_hash=test_password_hash, obsidian_vault_path=str(mock_vault)
     )
     return settings
 
@@ -165,6 +169,7 @@ def test_settings(test_password_hash: str, mock_vault: Path) -> TestSettings:
 @pytest.fixture(scope="session")
 def override_get_settings(test_settings: TestSettings):
     """Override the get_settings dependency"""
+
     def _override():
         return test_settings
 
@@ -180,7 +185,7 @@ async def test_engine(test_settings: TestSettings):
         test_settings.database_url,
         connect_args={"check_same_thread": False},
         poolclass=StaticPool,  # Use static pool for in-memory SQLite
-        echo=False
+        echo=False,
     )
 
     # Create all tables
@@ -203,9 +208,7 @@ async def db_session(test_engine) -> AsyncGenerator[AsyncSession, None]:
     """
     # Create session factory
     async_session_factory = async_sessionmaker(
-        test_engine,
-        class_=AsyncSession,
-        expire_on_commit=False
+        test_engine, class_=AsyncSession, expire_on_commit=False
     )
 
     async with async_session_factory() as session:
@@ -219,6 +222,7 @@ async def db_session(test_engine) -> AsyncGenerator[AsyncSession, None]:
 @pytest.fixture
 def override_get_db(db_session: AsyncSession):
     """Override the get_db dependency to use test database"""
+
     async def _override_get_db() -> AsyncGenerator[AsyncSession, None]:
         yield db_session
 
@@ -253,11 +257,7 @@ def admin_token(client: TestClient, test_settings: TestSettings, test_password: 
     Use this fixture for testing protected endpoints.
     """
     response = client.post(
-        "/api/auth/login",
-        json={
-            "email": test_settings.admin_email,
-            "password": test_password
-        }
+        "/api/auth/login", json={"email": test_settings.admin_email, "password": test_password}
     )
     assert response.status_code == 200, f"Login failed: {response.text}"
     return response.json()["access_token"]
@@ -284,7 +284,7 @@ async def sample_contact_messages(db_session: AsyncSession) -> list[ContactMessa
             subject="Test Subject 1",
             message="This is a test message",
             ip_address="127.0.0.1",
-            user_agent="Mozilla/5.0"
+            user_agent="Mozilla/5.0",
         ),
         ContactMessageDB(
             name="Jane Smith",
@@ -293,8 +293,8 @@ async def sample_contact_messages(db_session: AsyncSession) -> list[ContactMessa
             message="Another test message",
             ip_address="127.0.0.1",
             user_agent="Mozilla/5.0",
-            read=1
-        )
+            read=1,
+        ),
     ]
 
     for msg in messages:
