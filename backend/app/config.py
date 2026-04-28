@@ -2,7 +2,7 @@
 Application configuration using Pydantic Settings.
 Validates environment variables on startup and provides type-safe access.
 """
-import os
+
 from pathlib import Path
 from typing import List
 
@@ -44,10 +44,7 @@ class Settings(BaseSettings):
     from_email: str = "noreply@francescocavina.com"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="ignore"
     )
 
     @field_validator("obsidian_vault_path")
@@ -56,7 +53,7 @@ class Settings(BaseSettings):
         """Validate that the Obsidian vault path exists."""
         path = Path(v)
         if not path.exists():
-            raise ValueError(f"Obsidian vault path does not exist: {v}")
+            path.mkdir(parents=True, exist_ok=True)
         if not path.is_dir():
             raise ValueError(f"Obsidian vault path is not a directory: {v}")
         return v

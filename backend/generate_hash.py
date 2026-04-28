@@ -4,6 +4,7 @@ import sys
 
 try:
     from passlib.hash import bcrypt
+
     password = sys.argv[1] if len(sys.argv) > 1 else "admin123"
     hash_value = bcrypt.hash(password)
     print(hash_value)

@@ -54,12 +54,11 @@ export default function Home() {
       {/* Hero Section */}
       <section className="section pt-20 pb-16 md:pt-32 md:pb-24">
         <div className="max-w-4xl mx-auto text-center stagger-children">
-          
           {/* Profile Photo */}
           <div className="mb-8 inline-block animate-fade-in-up">
             <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-lg mx-auto">
               {/* Ensure to upload your profile.jpg to /public/images/profile.jpg */}
-              <Image 
+              <Image
                 src="/images/profile.jpg"
                 alt="Francesco Cavina"
                 fill
@@ -79,7 +78,11 @@ export default function Home() {
 
           {/* Introduction */}
           <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            I'm currently building the core AI and data platform at Robodata — designing privacy-first, metadata-driven data pipelines, local LLM inference infrastructure, and self-service data tooling that enables enterprise clients to run production AI entirely within their own cloud environment. I'm applying to the MSc Artificial Intelligence at UvA to deepen my expertise in NLP and ML theory.
+            I'm currently building the core AI and data platform at Robodata — designing
+            privacy-first, metadata-driven data pipelines, local LLM inference infrastructure, and
+            self-service data tooling that enables enterprise clients to run production AI entirely
+            within their own cloud environment. I'm applying to the MSc Artificial Intelligence at
+            UvA to deepen my expertise in NLP and ML theory.
           </p>
 
           {/* CTA Buttons */}

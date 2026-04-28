@@ -1,21 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Francesco Cavina — AI & Software Engineering",
@@ -39,8 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]" suppressHydrationWarning>
+    <html lang="en">
+      <body
+        className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]"
+        suppressHydrationWarning
+      >
         <ErrorBoundary>
           <Header />
           <main id="main-content" className="flex-grow" role="main">

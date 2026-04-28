@@ -3,23 +3,22 @@ FastAPI Application Entry Point
 Professional Portfolio Website Backend
 """
 
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
-import logging
 import os
+from contextlib import asynccontextmanager
+
 from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
-from app.api import notes, quotes, contact, auth
-from app.services.cache_service import cache_service
-from app.services.file_watcher import initialize_file_watcher, shutdown_file_watcher
-from app.middleware.security import SecurityHeadersMiddleware
-from app.middleware.rate_limit import limiter
-from app.middleware.request_id import RequestIDMiddleware
+from app.api import auth, contact, notes, quotes
 from app.config import get_settings
 from app.logging_config import configure_logging, get_logger
+from app.middleware.rate_limit import limiter
+from app.middleware.request_id import RequestIDMiddleware
+from app.middleware.security import SecurityHeadersMiddleware
+from app.services.file_watcher import initialize_file_watcher, shutdown_file_watcher
 
 # Load environment variables
 load_dotenv()
@@ -77,7 +76,7 @@ app = FastAPI(
     title="Francesco Cavina Portfolio API",
     description="Backend API for personal portfolio website",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Configure rate limiting
@@ -107,11 +106,7 @@ app.include_router(contact.router, prefix="/api/contact", tags=["Contact"])
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {
-        "message": "Francesco Cavina Portfolio API",
-        "version": "1.0.0",
-        "docs": "/docs"
-    }
+    return {"message": "Francesco Cavina Portfolio API", "version": "1.0.0", "docs": "/docs"}
 
 
 @app.get("/health")

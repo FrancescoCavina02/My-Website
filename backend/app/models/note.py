@@ -1,12 +1,14 @@
 """Pydantic models for notes"""
 
-from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
 from datetime import datetime
+from typing import Dict, List, Optional
+
+from pydantic import BaseModel, Field
 
 
 class Note(BaseModel):
     """Represents a parsed Obsidian note"""
+
     id: str = Field(..., description="Unique identifier for the note")
     title: str = Field(..., description="Note title")
     content: str = Field(..., description="Full note content in markdown")
@@ -16,7 +18,7 @@ class Note(BaseModel):
     links: List[str] = Field(default_factory=list, description="Obsidian links [[Note]]")
     word_count: int = Field(..., description="Number of words in content")
     created_at: datetime = Field(default_factory=datetime.now)
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -27,13 +29,14 @@ class Note(BaseModel):
                 "book": "A New Earth",
                 "file_path": "Spiritual/A New Earth/files/Presence.md",
                 "links": ["Ego", "Pain-Body"],
-                "word_count": 150
+                "word_count": 150,
             }
         }
 
 
 class NoteMetadata(BaseModel):
     """Metadata for a note (without full content)"""
+
     id: str
     title: str
     category: str
@@ -44,6 +47,7 @@ class NoteMetadata(BaseModel):
 
 class NoteTree(BaseModel):
     """Tree structure for note navigation"""
+
     id: str
     title: str
     file_path: str
@@ -55,6 +59,7 @@ class NoteTree(BaseModel):
 
 class NoteStats(BaseModel):
     """Statistics about the note collection"""
+
     total_notes: int
     categories: Dict[str, int]
     books: Dict[str, int]
@@ -63,6 +68,7 @@ class NoteStats(BaseModel):
 
 class Quote(BaseModel):
     """A quote extracted from notes"""
+
     text: str
     source: str
     book: Optional[str] = None
@@ -71,8 +77,9 @@ class Quote(BaseModel):
 
 class ContactMessage(BaseModel):
     """Contact form submission"""
+
     name: str = Field(..., min_length=2, max_length=100)
-    email: str = Field(..., pattern=r'^[\w\.-]+@[\w\.-]+\.\w+$')
+    email: str = Field(..., pattern=r"^[\w\.-]+@[\w\.-]+\.\w+$")
     subject: str = Field(..., min_length=5, max_length=200)
     message: str = Field(..., min_length=10, max_length=5000)
 
