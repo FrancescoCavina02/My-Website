@@ -18,7 +18,6 @@ export default function ProjectsPage() {
         <div className="min-h-screen">
             <section className="section">
                 <div className="max-w-6xl mx-auto">
-                    {/* Page Header */}
                     <div className="mb-12 text-center stagger-children">
                         <h1 className="mb-4">
                             My Projects
@@ -29,10 +28,9 @@ export default function ProjectsPage() {
                         </p>
                     </div>
 
-                    {/* AI Skills Demonstrated Callout Box */}
                     <div className="mb-12 animate-fade-in-up border border-[rgba(255,255,255,0.08)] bg-[rgba(14,165,233,0.05)] rounded-lg p-6">
                         <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
-                           <Brain className="w-5 h-5 text-[var(--color-accent)]" /> AI Skills Demonstrated
+                           <Brain className="w-5 h-5 text-[var(--color-accent)]" /> Technical Expertise
                         </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                             <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
@@ -53,9 +51,8 @@ export default function ProjectsPage() {
                         </div>
                     </div>
 
-                    {/* Featured Projects */}
                     {featuredProjects.length > 0 && (
-                        <div className="mb-12 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                        <div className="mb-12 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
                             <h2 className="text-xl font-semibold mb-6 text-white border-b border-[rgba(255,255,255,0.05)] pb-3">
                                 Featured Work
                             </h2>
@@ -67,8 +64,7 @@ export default function ProjectsPage() {
                         </div>
                     )}
 
-                    {/* Category Filter */}
-                    <div className="flex flex-wrap gap-2 mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <div className="flex flex-wrap gap-2 mb-8 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
                         {categories.map((cat) => (
                             <button
                                 key={cat.id}
@@ -84,8 +80,7 @@ export default function ProjectsPage() {
                         ))}
                     </div>
 
-                    {/* Project Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
                         {filteredProjects.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
@@ -115,13 +110,16 @@ function ProjectCard({
                 featured ? "border-[rgba(14,165,233,0.3)] shadow-[0_0_15px_rgba(14,165,233,0.05)]" : ""
             }`}
         >
-            {/* Project Image Placeholder */}
             {project.image ? (
                 <div className="mb-5 rounded-md overflow-hidden bg-[#111] aspect-video border border-[rgba(255,255,255,0.05)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={project.image}
                         alt={project.title}
+                        width={1280}
+                        height={720}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
                     />
                 </div>
@@ -139,7 +137,6 @@ function ProjectCard({
                 </div>
             )}
 
-            {/* Content Container (flex-grow keeps footer at bottom) */}
             <div className="flex-grow flex flex-col">
                 <div className="mb-3 flex items-center justify-between">
                     <span className="tag">{project.category.toUpperCase()}</span>
@@ -158,12 +155,11 @@ function ProjectCard({
                 <h3 className="text-lg font-semibold mb-2 text-white">
                     {project.title}
                 </h3>
-                
+
                 <p className="text-sm text-[var(--color-text-secondary)] mb-5">
                     {featured && project.longDescription ? project.longDescription : project.description}
                 </p>
 
-                {/* Technologies and Links (pushed to bottom) */}
                 <div className="mt-auto">
                     <div className="flex flex-wrap gap-2 mb-5">
                         {project.technologies.slice(0, 6).map((tech) => (
@@ -189,7 +185,7 @@ function ProjectCard({
                                 rel="noopener noreferrer"
                                 className="text-sm font-medium text-[var(--color-accent)] hover:underline flex items-center gap-1"
                             >
-                                Visit Live Demo 
+                                Visit Live Demo
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                             </a>
                         ) : project.githubUrl ? (
@@ -197,7 +193,7 @@ function ProjectCard({
                                 href={project.githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm font-medium text-[var(--color-text-primary)] hover:text-[var(--color-accent)] transition-colors flex items-center gap-1"
+                                className="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors flex items-center gap-1"
                             >
                                 View Code
                             </a>

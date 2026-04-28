@@ -59,7 +59,7 @@ export default function NotFound() {
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline" className="min-w-[120px]">
+              <Button variant="secondary" className="min-w-[120px]">
                 ✉️ Contact
               </Button>
             </Link>
@@ -73,12 +73,12 @@ export default function NotFound() {
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/notes">
-              <Button variant="ghost" size="sm">
+              <Button variant="secondary" size="sm">
                 🔍 Search Notes
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="ghost" size="sm">
+              <Button variant="secondary" size="sm">
                 📧 Report Broken Link
               </Button>
             </Link>

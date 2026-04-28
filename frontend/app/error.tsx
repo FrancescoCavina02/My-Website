@@ -87,7 +87,7 @@ export default function Error({
           </Button>
           <Button
             onClick={() => (window.location.href = "/")}
-            variant="outline"
+            variant="secondary"
             className="min-w-[120px]"
           >
             Go Home
