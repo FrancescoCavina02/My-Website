@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 portfolio.db
 test_geist.ts
+backend/portfolio.db

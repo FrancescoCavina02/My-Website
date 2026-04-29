@@ -18,6 +18,7 @@ export default function NotePage() {
   useEffect(() => {
     if (!slug) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsFetching(true);
     const loadNote = async () => {
       try {

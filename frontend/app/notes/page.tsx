@@ -160,6 +160,7 @@ export default function NotesPage() {
   // Search handler
   useEffect(() => {
     if (searchQuery.length < 2) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchResults([]);
       return;
     }
@@ -301,11 +302,10 @@ export default function NotesPage() {
           <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm bg-[var(--color-space-800)] rounded-lg px-4 py-3">
             <button
               onClick={resetToCategories}
-              className={`${
-                viewLevel === "categories" && !currentNote
-                  ? "text-[var(--color-accent-500)]"
-                  : "text-[var(--color-text-muted)] hover:text-[var(--color-accent-500)]"
-              }`}
+              className={`${viewLevel === "categories" && !currentNote
+                ? "text-[var(--color-accent-500)]"
+                : "text-[var(--color-text-muted)] hover:text-[var(--color-accent-500)]"
+                }`}
             >
               📚 All Categories
             </button>
@@ -320,11 +320,10 @@ export default function NotesPage() {
                     setCurrentNote(null);
                     setNoteHistory([]);
                   }}
-                  className={`${
-                    viewLevel === "books" && !currentNote
-                      ? "text-[var(--color-accent-500)]"
-                      : "text-[var(--color-text-muted)] hover:text-[var(--color-accent-500)]"
-                  }`}
+                  className={`${viewLevel === "books" && !currentNote
+                    ? "text-[var(--color-accent-500)]"
+                    : "text-[var(--color-text-muted)] hover:text-[var(--color-accent-500)]"
+                    }`}
                 >
                   {selectedCategory}
                 </button>

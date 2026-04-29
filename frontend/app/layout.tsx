@@ -5,13 +5,13 @@ import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
-  title: "Francesco Cavina — AI & Software Engineering",
+  title: "Francesco Cavina — AI & Data Engineering",
   description:
-    "Personal portfolio of Francesco Cavina, Computer Science student at [FILL IN University], MSc AI applicant at UvA. Projects in RAG, NLP, LLMs, and full-stack development.",
+    "Personal portfolio of Francesco Cavina, ex Econometrics and Data Science student at VU Amsterdam. Projects in RAG, NLP, LLMs, and full-stack development.",
   keywords: ["AI", "Machine Learning", "NLP", "RAG", "Next.js", "FastAPI", "Portfolio"],
   authors: [{ name: "Francesco Cavina" }],
   openGraph: {
-    title: "Francesco Cavina — AI & Software Engineering",
+    title: "Francesco Cavina — AI & Data Engineering",
     description: "AI projects, personal notes, and software engineering work.",
     url: "https://[FILL IN DOMAIN].com",
     siteName: "Francesco Cavina",
