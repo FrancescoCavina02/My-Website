@@ -11,7 +11,7 @@ OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 # Titles to exclude from the exported notes
 EXCLUDED_TITLES = {
     "Where do you get your dopamine",
-    "Making love",
+    "Notes - Making Love",
 }
 
 from app.services.obsidian_parser import ObsidianParser
