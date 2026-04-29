@@ -81,6 +81,23 @@ export default function NoteViewer({ note, onNavigate, onWikiLinkClick }: NoteVi
         </nav>
       )}
 
+      {/* ── Back to Notes fallback (root notes / direct URL access) ─────── */}
+      {!nav?.parent && breadcrumbTrail.length === 0 && (
+        <a
+          href="/notes"
+          className="mb-4 flex items-center gap-2 text-sm transition-colors"
+          style={{ color: 'var(--color-text-secondary)', textDecoration: 'none' }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-accent-500)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Notes
+        </a>
+      )}
+
       {/* ── Back to parent link ─────────────────────────────────────────── */}
       {nav?.parent && (
         <button
@@ -102,6 +119,7 @@ export default function NoteViewer({ note, onNavigate, onWikiLinkClick }: NoteVi
           Back to {nav.parent.title}
         </button>
       )}
+
 
       {/* ── Note card ───────────────────────────────────────────────────── */}
       <div className="card">

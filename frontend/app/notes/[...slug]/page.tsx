@@ -2,40 +2,57 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { fetchNote, Note } from '@/lib/api';
+import { fetchNote, searchNotes, Note } from '@/lib/api';
 import NoteViewer from '@/components/notes/NoteViewer';
 import NoteSkeleton from '@/components/loading/NoteSkeleton';
-import Link from 'next/link';
 
 export default function NoteSlugPage() {
   const params = useParams();
   const router = useRouter();
 
-  // Catch-all gives us slug as string[] — join with '/' to rebuild file paths
-  const rawSlug = params.slug;
-  const slug = Array.isArray(rawSlug) ? rawSlug.join('/') : (rawSlug as string);
+  // Catch-all gives slug as string[] — decode each segment then join with '/'
+  const slugArr = Array.isArray(params.slug)
+    ? params.slug
+    : [params.slug as string];
+  const noteId = slugArr.map(decodeURIComponent).join('/');
 
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!slug) return;
+    if (!noteId) return;
     setLoading(true);
     setError(null);
-
-    fetchNote(decodeURIComponent(slug))
+    fetchNote(noteId)
       .then(setNote)
-      .catch(() => setError('Note not found'))
+      .catch(() => setError('Note not found.'))
       .finally(() => setLoading(false));
-  }, [slug]);
+  }, [noteId]);
 
-  const handleNavigate = (noteId: string) => {
-    router.push(`/notes/${encodeURIComponent(noteId)}`);
+  const handleNavigate = (id: string) => {
+    router.push(`/notes/${encodeURIComponent(id)}`);
   };
 
-  const handleWikiLinkClick = (linkText: string) => {
-    router.push(`/notes/${encodeURIComponent(linkText)}`);
+  // Wiki links resolved via semantic search (same strategy as notes/page.tsx)
+  const handleWikiLinkClick = async (linkText: string) => {
+    try {
+      const results = await searchNotes(linkText, 5);
+      if (results.length > 0) {
+        const exactInBook = results.find(
+          (r) =>
+            r.title.toLowerCase() === linkText.toLowerCase() &&
+            r.book === note?.book
+        );
+        const exactAny = results.find(
+          (r) => r.title.toLowerCase() === linkText.toLowerCase()
+        );
+        const best = exactInBook ?? exactAny ?? results[0];
+        router.push(`/notes/${encodeURIComponent(best.id)}`);
+      }
+    } catch {
+      console.error('Wiki link navigation failed for:', linkText);
+    }
   };
 
   if (loading) {
@@ -53,19 +70,25 @@ export default function NoteSlugPage() {
   if (error || !note) {
     return (
       <div className="min-h-screen">
-        <section className="section text-center">
-          <h1
-            className="text-2xl font-semibold mb-4"
-            style={{ color: 'var(--color-text-primary)' }}
+        <section className="section">
+          <div
+            className="max-w-5xl mx-auto text-center py-12"
+            style={{ color: 'var(--color-text-muted)' }}
           >
-            Note Not Found
-          </h1>
-          <p className="mb-6" style={{ color: 'var(--color-text-muted)' }}>
-            {error ?? 'The requested note could not be loaded.'}
-          </p>
-          <Link href="/notes" className="btn btn-secondary">
-            ← Back to Notes
-          </Link>
+            <p>{error ?? 'Note not found.'}</p>
+            <button
+              onClick={() => router.push('/notes')}
+              className="mt-4 text-sm underline"
+              style={{
+                color: 'var(--color-accent-500)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              ← Back to notes
+            </button>
+          </div>
         </section>
       </div>
     );
@@ -75,20 +98,6 @@ export default function NoteSlugPage() {
     <div className="min-h-screen">
       <section className="section">
         <div className="max-w-5xl mx-auto">
-          {/* Link back to the full notes browser */}
-          <div className="mb-4">
-            <Link
-              href="/notes"
-              className="inline-flex items-center gap-2 text-sm transition-colors"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              All Notes
-            </Link>
-          </div>
-
           <NoteViewer
             note={note}
             onNavigate={handleNavigate}
