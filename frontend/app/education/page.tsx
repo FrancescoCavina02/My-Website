@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Education | Francesco Cavina",
-  description: "Academic history, coursework, and certifications.",
+  description: "Academic history and coursework",
 };
 
 export default function EducationPage() {
@@ -18,26 +18,74 @@ export default function EducationPage() {
 
           {/* Timeline */}
           <div className="space-y-8 animate-fade-in-up">
-            <TimelineItem
-              year="2024"
-              title="BSc in Econometrics and Data Science"
-              institution="Vrije Universiteit Amsterdam, Amsterdam, Netherlands"
-              description="Completed Bachelor's degree with a focus on statistical modelling, data analysis, and econometrics. Thesis explored alternative mathematical frameworks for probability theory."
-              highlights={[
-                "GPA: 7.8 / 10",
-                "Thesis: Nonstandard Probabilities in an Internal Probability Space (Grade: 8.5 / 10)",
-              ]}
-            />
-            
-            <TimelineItem
-              year="2024"
-              title="Pure Mathematics Minor"
-              institution="University of Leeds, Leeds, England"
-              description="Exchange semester focused on advanced pure mathematics, rigorous proofs, and foundational concepts."
-              highlights={[
-                "GPA: 8.5 / 10",
-              ]}
-            />
+            {/* VU Amsterdam */}
+            <div className="relative pl-8 border-l border-[rgba(255,255,255,0.1)]">
+              <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[var(--color-text-muted)]" />
+              <div className="card">
+                <div className="flex justify-between items-start mb-1">
+                  <h3 className="text-lg font-semibold text-white">BSc in Econometrics and Data Science</h3>
+                  <span className="inline-block px-2.5 py-1 text-xs font-medium bg-[rgba(255,255,255,0.05)] rounded text-[var(--color-text-secondary)]">
+                    2021 – 2024
+                  </span>
+                </div>
+                <p className="text-[var(--color-accent)] text-sm mb-3 font-medium">
+                  Vrije Universiteit Amsterdam, Amsterdam, Netherlands
+                </p>
+                <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-4 font-light">
+                  Completed Bachelor&apos;s degree with a focus on statistical modelling, data analysis,
+                  and econometrics. Developed strong foundations in machine learning, probability theory,
+                  data engineering, and mathematical reasoning.
+                </p>
+                <ul className="mt-4 space-y-2 pt-4 border-t border-[rgba(255,255,255,0.05)]">
+                  <li className="text-sm text-[var(--color-text-secondary)] flex items-start gap-2">
+                    <span className="text-[var(--color-text-muted)] mt-0.5">•</span>
+                    GPA: 7.8 / 10
+                  </li>
+                </ul>
+
+                {/* Thesis Block */}
+                <div className="mt-5 p-4 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-md">
+                  <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-2 font-semibold">
+                    Bachelor Thesis — Grade: 8.5 / 10
+                  </p>
+                  <p className="text-sm font-medium text-white mb-2">
+                    Nonstandard Probabilities in an Internal Probability Space
+                  </p>
+                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed font-light">
+                    Standard probability theory assigns probability zero to any individual outcome
+                    of a continuous random variable — even when that outcome is entirely possible.
+                    This thesis proposes an alternative framework using hyperreal numbers: via the
+                    ultrapower construction of ℝ<sup>*</sup> and the Loeb measure over an internal hyperfinite
+                    partition, the nonstandard probability of a specific outcome is infinitesimal
+                    but strictly positive — not zero. The thesis also establishes equivalence between
+                    the Lebesgue measure and the Loeb measure.
+                  </p>
+                  <p className="text-xs text-[var(--color-text-muted)] mt-3">
+                    Supervisor: Prof. Bernd Heidergott · Co-reader: Dr. Oliver Fabert
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* University of Leeds */}
+            <div className="relative pl-8 border-l border-[rgba(255,255,255,0.1)]">
+              <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[var(--color-text-muted)]" />
+              <div className="card">
+                <div className="flex justify-between items-start mb-1">
+                  <h3 className="text-lg font-semibold text-white">Pure Mathematics Minor</h3>
+                  <span className="inline-block px-2.5 py-1 text-xs font-medium bg-[rgba(255,255,255,0.05)] rounded text-[var(--color-text-secondary)]">
+                    2024
+                  </span>
+                </div>
+                <p className="text-[var(--color-accent)] text-sm mb-3 font-medium">
+                  University of Leeds, Leeds, England - GPA: 7.5 / 10
+                </p>
+                <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed font-light">
+                  Exchange semester focused on advanced pure mathematics: rigorous proofs, abstract algebra, metric spaces, and differential geometry. Courses included: Groups and Vector Spaces, Metric and Function Spaces, Calculus in the Complex Plane, Geometry of Curves and Surfaces.
+                </p>
+              </div>
+            </div>
+
           </div>
 
           {/* Relevant Coursework */}
@@ -93,11 +141,10 @@ function TimelineItem({
     <div className="relative pl-8 border-l border-[rgba(255,255,255,0.1)]">
       {/* Timeline Dot */}
       <div
-        className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full ${
-          current
-            ? "bg-[var(--color-accent)] shadow-[0_0_8px_rgba(14,165,233,0.6)]"
-            : "bg-[var(--color-text-muted)]"
-        }`}
+        className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full ${current
+          ? "bg-[var(--color-accent)] shadow-[0_0_8px_rgba(14,165,233,0.6)]"
+          : "bg-[var(--color-text-muted)]"
+          }`}
       />
 
       {/* Content */}

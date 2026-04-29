@@ -29,7 +29,7 @@ export default function ExperiencePage() {
                 <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-white mb-1">
-                      AI & Data Platform Engineer
+                      Data & AI Platform Engineer
                     </h2>
                     <p className="text-lg text-[var(--color-accent)] font-medium">Robodata</p>
                   </div>

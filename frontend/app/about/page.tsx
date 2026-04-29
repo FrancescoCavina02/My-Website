@@ -23,17 +23,20 @@ export default function AboutPage() {
               </h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)]">
                 <p className="mb-4 leading-relaxed font-light">
-                  I hold a BSc in Econometrics and Data Science from Vrije Universiteit Amsterdam, and I am passionate about building
-                  intelligent systems that sit at the intersection of AI, philosophy, and human
-                  experience. I have developed a strong proficiency in Python, machine learning, and full-stack
-                  development, with an increasing focus on Natural Language Processing and reasoning
+                  I hold a BSc in Econometrics and Data Science from Vrije Universiteit Amsterdam,
+                  with a Minor in Pure Mathematics from the University of Leeds. My work sits at
+                  the intersection of rigorous mathematical foundations, production AI engineering,
+                  and the philosophical questions that make both meaningful. I have developed a strong
+                  proficiency in Python, machine learning, and full-stack development, with an
+                  increasing focus on Natural Language Processing and reasoning
                   systems.
                 </p>
                 <p className="leading-relaxed font-light">
-                  I am applying to master's programs to pursue these passions rigorously. My goal is to deepen my
-                  theoretical understanding of machine learning mechanisms while pushing the
-                  boundaries of applied AI in creating robust, context-aware digital guides and
-                  knowledge graphs.
+                  My focus is on understanding intelligent systems from the ground up - not just
+                  building with AI, but questioning its architecture, its assumptions, and what it
+                  could unlock in science and human cognition. I am currently building
+                  privacy-first AI and data infrastructure at Robodata, while continuing to explore
+                  these deeper questions through personal research and independent projects.
                 </p>
               </div>
             </div>
@@ -95,6 +98,9 @@ export default function AboutPage() {
                     <span className="tag">Terraform</span>
                     <span className="tag">Azure</span>
                     <span className="tag">Databricks</span>
+                    <span className="tag">Apache Airflow</span>
+                    <span className="tag">Jinja</span>
+                    <span className="tag">WireGuard</span>
                   </div>
                 </div>
               </div>
@@ -106,20 +112,29 @@ export default function AboutPage() {
                 Interests
               </h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light leading-relaxed">
+                <p className="mb-4">
+                  Beyond code, I&apos;m drawn to the deep questions — the mathematical structure
+                  of physical reality, the origins of the universe, and what it means for
+                  intelligent systems to understand anything at all. Between 2023 and 2024 I ran
+                  two independent podcasts where I interviewed physicists, cosmologists, and
+                  mathematicians about these topics, producing conversations I still return to.
+                </p>
                 <p>
-                  Beyond code, I&apos;m drawn to questions at the intersection of philosophy,
-                  physics, and AI, such as the mathematical structure of our physical reality and the origins of the universe. I ran a podcast interviewing physicists and cosmologists about these topics. I also play dodgeball competitively and read widely to inform my worldview—drawing constantly from Stoic philosophy and modern neuroscience.
+                  I play dodgeball in the Dutch national team, read widely across philosophy, neuroscience,
+                  and physics, and maintain an Obsidian vault of approximately 1,700 notes that functions as a
+                  second brain — and occasionally as training data.
                 </p>
               </div>
             </div>
 
             {/* 4. Currently Section */}
-            <div className="card border-l-[3px] border-[var(--color-accent)]">
+            <div className="card bg-[rgba(14,165,233,0.04)] border border-[rgba(14,165,233,0.12)]">
               <h2 className="text-xl font-semibold mb-2 text-white">Currently</h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light">
                 <p>
-                  Working as a Data & AI Platform Engineer at Robodata, building AI
-                  projects, and preparing my MSc application.
+                  Working as a Data & AI Platform Engineer at Robodata, building privacy-first AI
+                  infrastructure, running personal ML research projects, and exploring the
+                  mathematical foundations of intelligent systems.
                 </p>
               </div>
             </div>
