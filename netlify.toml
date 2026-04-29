@@ -4,7 +4,8 @@
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION        = "20"
+  NEXT_PUBLIC_API_URL = "https://francescocavina-portfolio-api.onrender.com"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
