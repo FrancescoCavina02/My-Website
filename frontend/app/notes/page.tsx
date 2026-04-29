@@ -450,7 +450,7 @@ export default function NotesPage() {
                   {categories.map((category) => {
                     const data = structure[category];
                     const icons: Record<string, string> = {
-                      Spiritual: "🔮",
+                      Spiritual: "☸️",
                       "Self-Help": "📈",
                       Science: "🔬",
                       Psychology: "🧠",
