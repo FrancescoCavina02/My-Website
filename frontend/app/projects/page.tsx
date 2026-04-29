@@ -27,7 +27,7 @@ export default function ProjectsPage() {
           {/* AI Skills Demonstrated Callout Box */}
           <div className="mb-12 animate-fade-in-up border border-[rgba(255,255,255,0.08)] bg-[rgba(14,165,233,0.05)] rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
-              <Brain className="w-5 h-5 text-[var(--color-accent)]" /> AI Skills Demonstrated
+              <Brain className="w-5 h-5 text-[var(--color-accent)]" /> AI Skills Involved
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
@@ -93,11 +93,10 @@ export default function ProjectsPage() {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  activeCategory === cat.id
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeCategory === cat.id
                     ? "bg-[var(--color-accent)] text-black"
                     : "bg-transparent border border-[rgba(255,255,255,0.1)] text-[var(--color-text-secondary)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
-                }`}
+                  }`}
               >
                 {cat.label}
               </button>
@@ -128,9 +127,8 @@ export default function ProjectsPage() {
 function ProjectCard({ project, featured = false }: { project: Project; featured?: boolean }) {
   return (
     <div
-      className={`card flex flex-col h-full ${
-        featured ? "border-[rgba(14,165,233,0.3)] shadow-[0_0_15px_rgba(14,165,233,0.05)]" : ""
-      }`}
+      className={`card flex flex-col h-full ${featured ? "border-[rgba(14,165,233,0.3)] shadow-[0_0_15px_rgba(14,165,233,0.05)]" : ""
+        }`}
     >
       {/* Project Image Placeholder */}
       {project.image ? (
@@ -206,7 +204,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                 rel="noopener noreferrer"
                 className="text-sm font-medium text-[var(--color-accent)] hover:underline flex items-center gap-1"
               >
-                Visit Live Demo
+                Link
                 <svg
                   width="12"
                   height="12"

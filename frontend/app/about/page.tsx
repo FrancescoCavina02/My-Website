@@ -114,7 +114,7 @@ export default function AboutPage() {
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light leading-relaxed">
                 <p className="mb-4">
                   Beyond code, I&apos;m drawn to the deep questions — the mathematical structure
-                  of physical reality, the origins of the universe, and what it means for
+                  of physical reality, black holes, the origins of the universe, and what it means for
                   intelligent systems to understand anything at all. Between 2023 and 2024 I ran
                   two independent podcasts where I interviewed physicists, cosmologists, and
                   mathematicians about these topics, producing conversations I still return to.

@@ -57,9 +57,9 @@ export default function Home() {
           {/* Profile Photo */}
           <div className="mb-8 inline-block animate-fade-in-up">
             <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-lg mx-auto">
-              {/* Ensure to upload your profile.jpg to /public/images/profile.jpg */}
+              {/* Profile image */}
               <Image
-                src="/images/profile.jpg"
+                src="/images/francesco-main.jpg"
                 alt="Francesco Cavina"
                 fill
                 priority

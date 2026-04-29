@@ -46,6 +46,7 @@ export const projects: Project[] = [
     longDescription:
       "Five-stage RAG pipeline built from scratch: (1) Obsidian vault parser with WikiLink graph extraction; (2) structure-aware chunking (800-token chunks, 150-token overlap); (3) sentence-transformers/all-MiniLM-L6-v2 → 384-dim L2-normalised vectors in ChromaDB HNSW; (4) hybrid retrieval: 70% cosine similarity + 20% BM25 keyword overlap + 10% WikiLink density, recovering ~12% additional recall on named-entity queries vs. dense-only; (5) GPT-4 Turbo with citation-injected structured prompts, token-by-token SSE streaming. Multi-LLM abstraction (OpenAI, Ollama/Llama 3.1, Anthropic, Google) via shared abstract base class. Evaluated across 20 queries: GPT-4 Turbo achieves 4.7/5 citation accuracy, 4.6/5 contextual grounding.",
     category: "ai",
+    image: "/images/Spiritual-chatbot-main.png",
     technologies: [
       "Python",
       "FastAPI",
@@ -69,6 +70,7 @@ export const projects: Project[] = [
     title: "Independent Podcasts",
     description: "Created and hosted two podcasts interviewing researchers on Physics, Cosmology, Mathematics, and Philosophy.",
     category: "podcast",
+    image: "/images/podcast-main.png",
     technologies: ["Interviewing", "Audio Editing", "Research", "Content Creation"],
     liveUrl: "https://www.youtube.com/@francescocavina5882",
     featured: false,
@@ -78,6 +80,7 @@ export const projects: Project[] = [
     title: "Dodgeball Club Amsterdam Website",
     description: "Created and currently maintaining a dynamic and modern website for the Dodgeball Club Amsterdam.",
     category: "web",
+    image: "/images/dodgeball-website-main.png",
     technologies: ["HTML", "JavaScript", "CSS"],
     githubUrl: "https://github.com/FrancescoCavina02/DCA-website",
     liveUrl: "https://dodgeballclubamsterdam.com/",

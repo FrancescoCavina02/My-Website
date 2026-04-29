@@ -131,7 +131,7 @@ export default function ExperiencePage() {
                 {/* AI/Data Engineering Skills */}
                 <div>
                   <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] font-bold mb-4 flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4" /> AI/Data Engineering Skills Demonstrated
+                    <ShieldCheck className="w-4 h-4" /> AI/Data Engineering Skills Involved
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
                     {[
