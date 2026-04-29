@@ -26,6 +26,7 @@ export const projects: Project[] = [
     longDescription:
       "A Next.js + FastAPI web application that parses my personal Obsidian knowledge vault in real time, extracts structured notes and quotes, and serves them through a REST API. The system uses a custom tree parser and caching layer for performance. Demonstrates full-stack development, API design, and integration of personal knowledge management with web technology.",
     category: "web",
+    image: "/images/personal-website-main.png",
     technologies: [
       "Next.js",
       "TypeScript",
