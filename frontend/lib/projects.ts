@@ -80,6 +80,7 @@ export const projects: Project[] = [
     category: "web",
     technologies: ["HTML", "JavaScript", "CSS"],
     githubUrl: "https://github.com/FrancescoCavina02/DCA-website",
+    liveUrl: "https://dodgeballclubamsterdam.com/",
     featured: false,
   },
 ];

@@ -30,8 +30,7 @@ export default function AboutPage() {
                   systems.
                 </p>
                 <p className="leading-relaxed font-light">
-                  Currently, I am applying to the MSc Artificial Intelligence at the University of
-                  Amsterdam (UvA) to pursue this passion rigorously. My goal is to deepen my
+                  I am applying to master's programs to pursue these passions rigorously. My goal is to deepen my
                   theoretical understanding of machine learning mechanisms while pushing the
                   boundaries of applied AI in creating robust, context-aware digital guides and
                   knowledge graphs.

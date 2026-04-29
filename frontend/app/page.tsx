@@ -78,11 +78,12 @@ export default function Home() {
 
           {/* Introduction */}
           <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            I&apos;m currently building the core AI and data platform at Robodata — designing
-            privacy-first, metadata-driven data pipelines, local LLM inference infrastructure, and
-            self-service data tooling that enables enterprise clients to run production AI entirely
-            within their own cloud environment. I&apos;m applying to the MSc Artificial Intelligence
-            at UvA to deepen my expertise in NLP and ML theory.
+            I’m a Data & AI Platform Engineer currently building the core AI and data platform at
+            Robodata — designing privacy-first, metadata-driven data pipelines, local LLM inference
+            infrastructure, and self-service data tooling that enables enterprise clients to run
+            production AI entirely within their own cloud environment. I hold a BSc in Econometrics
+            and Data Science from Vrije Universiteit Amsterdam, with a strong foundation in statistical
+            modeling, machine learning, and full-stack development.
           </p>
 
           {/* CTA Buttons */}
