@@ -61,8 +61,8 @@ export default function ContactPage() {
             <MessageSquare className="w-8 h-8 text-[var(--color-accent)] mx-auto mb-4 opacity-80" />
             <h1 className="mb-4 text-white">Get In Touch</h1>
             <p className="text-[var(--color-text-secondary)] text-lg font-light max-w-xl mx-auto">
-              I&apos;m always open to discussing new opportunities, AI research, and interesting side
-              projects.
+              I&apos;m always open to discussing new opportunities, AI research, and interesting
+              side projects.
             </p>
           </div>
 

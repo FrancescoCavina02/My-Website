@@ -9,9 +9,7 @@ import {
   Note,
   NoteMetadata,
 } from "@/lib/api";
-import CardSkeleton, {
-  SearchCardSkeleton,
-} from "@/components/loading/CardSkeleton";
+import CardSkeleton, { SearchCardSkeleton } from "@/components/loading/CardSkeleton";
 import NoteSkeleton from "@/components/loading/NoteSkeleton";
 
 type ViewLevel = "categories" | "books" | "note";
