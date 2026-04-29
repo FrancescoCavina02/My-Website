@@ -23,7 +23,7 @@ export default function AboutPage() {
               </h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)]">
                 <p className="mb-4 leading-relaxed font-light">
-                  I'm a Computer Science student based in Amsterdam, passionate about building
+                  I&apos;m a Computer Science student based in Amsterdam, passionate about building
                   intelligent systems that sit at the intersection of AI, philosophy, and human
                   experience. I have developed a strong proficiency in Python and full-stack
                   development, with an increasing focus on Natural Language Processing and reasoning
@@ -105,7 +105,7 @@ export default function AboutPage() {
               </h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light leading-relaxed">
                 <p>
-                  Beyond code, I'm drawn to questions at the intersection of philosophy,
+                  Beyond code, I&apos;m drawn to questions at the intersection of philosophy,
                   consciousness, and AI. I practice pottery as a form of mindful making, run
                   regularly, and play dodgeball competitively. I read widely to inform my worldview
                   and my work — drawing constantly from both classic Stoic philosophy and modern

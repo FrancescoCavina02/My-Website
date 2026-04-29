@@ -1,4 +1,4 @@
-import { Briefcase, Code, Database, Server, Cpu, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Briefcase, Code, Cpu, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 export const metadata = {
   title: "Experience | Francesco Cavina",

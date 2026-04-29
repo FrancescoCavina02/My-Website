@@ -78,11 +78,11 @@ export default function Home() {
 
           {/* Introduction */}
           <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            I'm currently building the core AI and data platform at Robodata — designing
+            I&apos;m currently building the core AI and data platform at Robodata — designing
             privacy-first, metadata-driven data pipelines, local LLM inference infrastructure, and
             self-service data tooling that enables enterprise clients to run production AI entirely
-            within their own cloud environment. I'm applying to the MSc Artificial Intelligence at
-            UvA to deepen my expertise in NLP and ML theory.
+            within their own cloud environment. I&apos;m applying to the MSc Artificial Intelligence
+            at UvA to deepen my expertise in NLP and ML theory.
           </p>
 
           {/* CTA Buttons */}

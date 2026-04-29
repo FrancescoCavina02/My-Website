@@ -9,10 +9,7 @@ import {
   Note,
   NoteMetadata,
 } from "@/lib/api";
-import CardSkeleton, {
-  BookCardSkeleton,
-  SearchCardSkeleton,
-} from "@/components/loading/CardSkeleton";
+import CardSkeleton, { SearchCardSkeleton } from "@/components/loading/CardSkeleton";
 import NoteSkeleton from "@/components/loading/NoteSkeleton";
 
 type ViewLevel = "categories" | "books" | "note";
@@ -44,7 +41,7 @@ export default function NotesPage() {
   // Search
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<NoteMetadata[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const isSearching = searchQuery.length >= 2;
 
   // Flag to prevent pushState during popstate handling
   const [isRestoringState, setIsRestoringState] = useState(false);
@@ -164,19 +161,15 @@ export default function NotesPage() {
   useEffect(() => {
     if (searchQuery.length < 2) {
       setSearchResults([]);
-      setIsSearching(false);
       return;
     }
 
     const timeout = setTimeout(async () => {
-      setIsSearching(true);
       try {
         const results = await searchNotes(searchQuery);
         setSearchResults(results);
       } catch {
         setSearchResults([]);
-      } finally {
-        setIsSearching(false);
       }
     }, 300);
 
@@ -803,7 +796,7 @@ function renderInlineContent(
 
 // Format bold, italic, and inline code
 function formatInlineText(text: string): React.ReactNode {
-  let result = text
+  const result = text
     .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-[var(--color-text-primary)]">$1</strong>')
     .replace(/\*([^*]+)\*/g, "<em>$1</em>")
     .replace(

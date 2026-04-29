@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 const navItems = [
@@ -16,7 +16,6 @@ const navItems = [
 
 export default function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -28,7 +27,7 @@ export default function Header() {
     // If clicking Notes while on Notes page (or any subpage), force full reload
     if (href === "/notes" && pathname.startsWith("/notes")) {
       e.preventDefault();
-      window.location.href = "/notes";
+      window.location.assign("/notes");
       return;
     }
   };

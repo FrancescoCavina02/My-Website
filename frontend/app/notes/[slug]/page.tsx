@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchNote, searchNotes, Note } from "@/lib/api";
@@ -10,22 +10,28 @@ export default function NotePage() {
   const router = useRouter();
   const slug = params.slug as string;
   const [note, setNote] = useState<Note | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const loading = useMemo(() => !isLoaded || isFetching, [isLoaded, isFetching]);
 
   useEffect(() => {
     if (!slug) return;
 
-    setLoading(true);
-    fetchNote(slug)
-      .then((data) => {
+    setIsFetching(true);
+    const loadNote = async () => {
+      try {
+        const data = await fetchNote(slug);
         setNote(data);
-        setLoading(false);
-      })
-      .catch(() => {
+      } catch {
         setError("Could not load note.");
-        setLoading(false);
-      });
+      } finally {
+        setIsLoaded(true);
+        setIsFetching(false);
+      }
+    };
+
+    void loadNote();
   }, [slug]);
 
   // Handle wiki link click
