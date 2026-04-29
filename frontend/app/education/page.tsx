@@ -78,7 +78,7 @@ export default function EducationPage() {
                   </span>
                 </div>
                 <p className="text-[var(--color-accent)] text-sm mb-3 font-medium">
-                  University of Leeds, Leeds, England - GPA: 7.5 / 10
+                  University of Leeds, Leeds, England - GPA: 8.5 / 10
                 </p>
                 <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed font-light">
                   Exchange semester focused on advanced pure mathematics: rigorous proofs, abstract algebra, metric spaces, and differential geometry. Courses included: Groups and Vector Spaces, Metric and Function Spaces, Calculus in the Complex Plane, Geometry of Curves and Surfaces.
@@ -95,15 +95,16 @@ export default function EducationPage() {
             </h2>
             <div className="flex flex-wrap gap-3">
               {[
+                "Linear Algebra",
+                "Analysis I & II",
+                "Statistics",
+                "Probability and Inference",
                 "Data Science Methods",
                 "Data Structures and Algorithms",
                 "Econometrics I, II & III",
                 "Multivariate Statistics",
-                "Linear Algebra",
-                "Analysis I & II",
-                "Probability and Inference",
-                "Logic and Sets for CS",
                 "Numerical Methods",
+                "Logic and Sets for CS",
               ].map((course) => (
                 <span
                   key={course}
