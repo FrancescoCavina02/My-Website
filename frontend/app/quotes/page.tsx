@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { fetchRandomQuote, fetchQuoteCategories, Quote } from "@/lib/api";
-import Button from "@/components/ui/Button";
 import { QuoteSkeleton } from "@/components/loading/NoteSkeleton";
 import { Quote as QuoteIcon, Copy, Check } from "lucide-react";
 
@@ -32,7 +31,7 @@ export default function QuotesPage() {
     try {
       const newQuote = await fetchRandomQuote(selectedCategory || undefined);
       setQuote(newQuote);
-    } catch (err) {
+    } catch {
       setError("Could not fetch quotes. The backend service may be loading.");
       // Show a placeholder quote for demo purposes
       setQuote({
@@ -115,7 +114,7 @@ export default function QuotesPage() {
               <div className="card border-l-[3px] border-[var(--color-accent)] relative p-8 md:p-12 text-center animate-fade-in-up">
                 {/* Quote Text */}
                 <blockquote className="text-xl md:text-3xl text-white leading-relaxed mb-8 italic font-light">
-                  "{quote.text}"
+                  &quot;{quote.text}&quot;
                 </blockquote>
 
                 {/* Attribution */}

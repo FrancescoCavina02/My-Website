@@ -42,7 +42,7 @@ export default function ContactPage() {
         message: "Thank you! I will get back to you soon.",
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (error) {
+    } catch {
       setSubmitStatus({
         type: "error",
         message: "Failed to send message. Please try again or email me directly.",
@@ -61,7 +61,7 @@ export default function ContactPage() {
             <MessageSquare className="w-8 h-8 text-[var(--color-accent)] mx-auto mb-4 opacity-80" />
             <h1 className="mb-4 text-white">Get In Touch</h1>
             <p className="text-[var(--color-text-secondary)] text-lg font-light max-w-xl mx-auto">
-              I'm always open to discussing new opportunities, AI research, and interesting side
+              I&apos;m always open to discussing new opportunities, AI research, and interesting side
               projects.
             </p>
           </div>

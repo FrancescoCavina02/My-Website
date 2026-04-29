@@ -81,7 +81,7 @@ export default function NotFound() {
 
         {/* Fun Fact */}
         <div className="text-xs text-gray-600 italic pt-4">
-          "Not all who wander are lost... but this page definitely is."
+          &quot;Not all who wander are lost... but this page definitely is.&quot;
         </div>
       </Card>
     </div>
