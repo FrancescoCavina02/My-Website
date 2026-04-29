@@ -5,6 +5,7 @@ Adapted from NLP Chatbot project for portfolio use
 """
 
 import hashlib
+import json
 import os
 import re
 from datetime import datetime
@@ -21,6 +22,9 @@ from app.services.search_index import SearchIndex
 load_dotenv()
 
 logger = structlog.get_logger(__name__)
+
+# Path to the pre-exported JSON snapshot (committed to the repo)
+JSON_SNAPSHOT_PATH = Path(__file__).parent.parent.parent / "data" / "notes.json"
 
 
 class ObsidianParser:
@@ -42,7 +46,7 @@ class ObsidianParser:
 
     def parse_all_notes(self, exclude_patterns: Optional[List[str]] = None) -> List[Note]:
         """
-        Parse all markdown files in the vault
+        Parse all markdown files in the vault, or load from JSON snapshot if available.
 
         Args:
             exclude_patterns: List of patterns to exclude (e.g., ['.obsidian', 'templates'])
@@ -55,6 +59,28 @@ class ObsidianParser:
         if cached is not None:
             return cached
 
+        # --- Load from pre-exported JSON snapshot if it exists ---
+        if JSON_SNAPSHOT_PATH.exists():
+            logger.info(f"Loading notes from JSON snapshot: {JSON_SNAPSHOT_PATH}")
+            try:
+                with open(JSON_SNAPSHOT_PATH, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                notes = [Note(**n) for n in data]
+                logger.info(f"Loaded {len(notes)} notes from snapshot")
+
+                # Build search index from snapshot
+                logger.info("search_index_building")
+                search_index = SearchIndex.build_from_notes(notes)
+                index_stats = search_index.get_stats()
+                logger.info("search_index_built", **index_stats)
+
+                cache_service.set("all_notes", notes)
+                cache_service.set("search_index", search_index)
+                return notes
+            except Exception as e:
+                logger.error(f"Failed to load JSON snapshot, falling back to vault: {e}")
+
+        # --- Fallback: parse live vault (works locally, not on Render) ---
         if exclude_patterns is None:
             exclude_patterns = [".obsidian", "templates", "Archive", ".trash", "Excalidraw"]
 
