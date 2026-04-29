@@ -33,6 +33,93 @@ class QuoteService:
         """Initialize quote service"""
         self._compiled_patterns = [re.compile(p, re.MULTILINE) for p in self.QUOTE_PATTERNS]
 
+    def is_valid_quote(self, text: str, note: Note) -> bool:
+        """Apply comprehensive quality filter to reject bad quotes."""
+        # 1. LaTeX / Math rejection
+        latex_keywords = [
+            r"\frac", r"\sqrt", r"\int", r"\sum", r"\prod", r"\partial", r"\nabla",
+            r"\cdot", r"\times", r"\alpha", r"\beta", r"\gamma", r"\theta", r"\lambda",
+            r"\sigma", r"\pi", r"\infty", r"\approx", r"\leq", r"\geq", r"\neq", r"\equiv"
+        ]
+        if any(kw in text for kw in latex_keywords):
+            return False
+        if "$" in text or r"\\" in text:
+            return False
+        if re.search(r"[a-zA-Z]\s*=\s*[a-zA-Z0-9\\]", text):
+            return False
+
+        # 2. Markdown syntax rejection
+        if text.startswith("#"):
+            return False
+        if "**" in text or "__" in text:
+            return False
+        if "---" in text or "===" in text:
+            return False
+        if text.count("|") > 1:
+            return False
+        if "![[" in text:
+            return False
+        if re.match(r"^\s*-\s", text):
+            return False
+
+        # 3. Code / technical content rejection
+        if "`" in text:
+            return False
+        if "{" in text and "}" in text:
+            return False
+        code_keywords = ["import ", "def ", "class ", "return ", "const ", "function "]
+        if any(kw in text for kw in code_keywords):
+            return False
+        if "://" in text:
+            return False
+        if text.startswith("/") or text.startswith("./"):
+            return False
+
+        # 4. Low linguistic quality rejection
+        # a) Special character ratio
+        special_chars = sum(1 for c in text if not c.isalnum() and not c.isspace() and c not in ",.'-:;!?\"")
+        if len(text) > 0 and special_chars / len(text) > 0.10:
+            return False
+
+        # b) Word count floor
+        words = text.strip().split()
+        if len(words) < 6:
+            return False
+
+        # c) Word count ceiling
+        if len(words) > 80:
+            return False
+
+        # d) Capitalization check
+        first_char = next((c for c in text if not c.isspace()), "")
+        if not first_char.isalpha() or not first_char.isupper():
+            return False
+
+        # e) Sentence completeness heuristic
+        if not text.endswith((".", "!", "?", '"', "'", "…")):
+            return False
+
+        # f) Numeric dominance
+        digits = sum(1 for c in text if c.isdigit())
+        if len(text) > 0 and digits / len(text) > 0.20:
+            return False
+
+        # g) Repetition check
+        word_counts = {}
+        for w in words:
+            clean_word = "".join(c.lower() for c in w if c.isalpha())
+            if clean_word:
+                word_counts[clean_word] = word_counts.get(clean_word, 0) + 1
+                if word_counts[clean_word] > 4:
+                    return False
+
+        # 5. Source-context validity
+        if note.category == "Mathematics" and ("=" in text or any(op in text for op in "+-*/")):
+            if len(words) < 15:
+                return False
+
+        return True
+
     def extract_quotes_from_note(self, note: Note) -> List[Quote]:
         """
         Extract notable quotes from a single note
@@ -60,10 +147,17 @@ class QuoteService:
                 if text.startswith("http") or "```" in text or "[[" in text:
                     continue
 
+                # NEW: apply comprehensive quality filter
+                if not self.is_valid_quote(text, note):
+                    continue
+
                 quotes.append(
                     Quote(text=text, source=note.title, book=note.book, category=note.category)
                 )
 
+        logger.debug(
+            f"Note '{note.title}': {len(quotes)} valid quotes extracted"
+        )
         return quotes
 
     def get_all_quotes(self) -> List[Quote]:
@@ -74,7 +168,8 @@ class QuoteService:
             List of all extracted quotes
         """
         # Check cache
-        cached = cache_service.get("all_quotes")
+        QUOTE_CACHE_KEY = "all_quotes_v2"
+        cached = cache_service.get(QUOTE_CACHE_KEY)
         if cached is not None:
             return cached
 
@@ -86,10 +181,12 @@ class QuoteService:
             quotes = self.extract_quotes_from_note(note)
             all_quotes.extend(quotes)
 
-        logger.info(f"Extracted {len(all_quotes)} quotes from {len(notes)} notes")
+        logger.info(
+            f"Extracted {len(all_quotes)} valid quotes from {len(notes)} notes"
+        )
 
         # Cache the results
-        cache_service.set("all_quotes", all_quotes)
+        cache_service.set(QUOTE_CACHE_KEY, all_quotes)
 
         return all_quotes
 
