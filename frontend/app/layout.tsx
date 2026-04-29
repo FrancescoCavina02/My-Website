@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Francesco Cavina — AI & Data Engineering",
     description: "AI projects, personal notes, and software engineering work.",
-    url: "https://[FILL IN DOMAIN].com",
+    url: "https://francesco-cavina.netlify.app/",
     siteName: "Francesco Cavina",
     type: "website",
     locale: "en_US",

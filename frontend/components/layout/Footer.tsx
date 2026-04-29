@@ -11,7 +11,7 @@ const socialLinks = [
     ),
   },
   {
-    href: "https://linkedin.com/in/francescocavina",
+    href: "https://www.linkedin.com/in/francesco-cavina-8a7440145/",
     label: "LinkedIn",
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -41,7 +41,7 @@ export default function Footer() {
               Francesco Cavina
             </Link>
             <p className="mt-2 text-[var(--color-text-secondary)] text-sm">
-              Software Engineer & AI Enthusiast
+              Data & AI Engineer · Econometrics & Data Science BSc · Amsterdam
             </p>
           </div>
 

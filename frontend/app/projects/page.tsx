@@ -27,46 +27,49 @@ export default function ProjectsPage() {
           {/* AI Skills Demonstrated Callout Box */}
           <div className="mb-12 animate-fade-in-up border border-[rgba(255,255,255,0.08)] bg-[rgba(14,165,233,0.05)] rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
-              <Brain className="w-5 h-5 text-[var(--color-accent)]" /> AI Skills Involved
+              <Brain className="w-5 h-5 text-[var(--color-accent)]" /> Technical Depth
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> Hybrid Dense-Sparse
-                  Retrieval
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> Transformer Sentence
-                  Embeddings
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> HNSW ANN Indexing
-                </li>
-              </ul>
-              <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> Multi-LLM Provider
-                  Abstraction
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> FastAPI Async SSE Streaming
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> Prompt Engineering
-                </li>
-              </ul>
-              <ul className="space-y-2 text-sm text-[var(--color-text-secondary)] list-none">
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> Quantitative Model
-                  Evaluation
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> ETL Pipeline Design
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-[var(--color-accent)]">•</span> Data Engineering
-                </li>
-              </ul>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+              {/* Column 1 */}
+              <div>
+                <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)] font-semibold mb-3">
+                  Retrieval & Search
+                </p>
+                <ul className="space-y-2 text-sm text-[var(--color-text-secondary)]">
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Hybrid BM25 + Dense Vector Retrieval</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Sentence Transformer Embeddings</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> ChromaDB HNSW Vector Store</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Citation-Injected Structured Prompting</li>
+                </ul>
+              </div>
+
+              {/* Column 2 */}
+              <div>
+                <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)] font-semibold mb-3">
+                  LLMs & Inference
+                </p>
+                <ul className="space-y-2 text-sm text-[var(--color-text-secondary)]">
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Multi-LLM Abstraction (OpenAI, Ollama, Anthropic)</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Local LLM Deployment (Ollama + Kubernetes)</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> FastAPI SSE Token Streaming</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> GDPR-Aware PII Classification</li>
+                </ul>
+              </div>
+
+              {/* Column 3 */}
+              <div>
+                <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)] font-semibold mb-3">
+                  ML & Data Engineering
+                </p>
+                <ul className="space-y-2 text-sm text-[var(--color-text-secondary)]">
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> ML Trading Models (RF, XGBoost, Neural Nets)</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Walk-Forward Cross-Validation</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Metadata-Driven ETL Pipeline Design</li>
+                  <li className="flex items-center gap-2"><span className="text-[var(--color-accent)]">•</span> Quantitative RAG Evaluation (20-query benchmark)</li>
+                </ul>
+              </div>
+
             </div>
           </div>
 
@@ -94,8 +97,8 @@ export default function ProjectsPage() {
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeCategory === cat.id
-                    ? "bg-[var(--color-accent)] text-black"
-                    : "bg-transparent border border-[rgba(255,255,255,0.1)] text-[var(--color-text-secondary)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
+                  ? "bg-[var(--color-accent)] text-black"
+                  : "bg-transparent border border-[rgba(255,255,255,0.1)] text-[var(--color-text-secondary)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
                   }`}
               >
                 {cat.label}
