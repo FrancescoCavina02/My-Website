@@ -152,7 +152,7 @@ export default function NotesPage() {
       })
       .catch(() => {
         setError(
-          "Notes are synced from my personal Obsidian vault. If you're seeing this, the backend service may be loading. Check back shortly."
+          "Notes are synced from my personal Obsidian vault. The backend is waking up — refresh in 30 seconds."
         );
         setLoading(false);
       });

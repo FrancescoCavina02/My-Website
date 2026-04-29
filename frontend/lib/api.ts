@@ -141,10 +141,21 @@ export interface BookTreeResponse {
 
 // ─── API Functions ────────────────────────────────────────────────────────────
 
-export async function fetchVaultStructure(): Promise<VaultStructure> {
-  const response = await fetch(`${API_BASE_URL}/api/notes/structure`);
-  if (!response.ok) throw new Error("Failed to fetch vault structure");
-  return response.json();
+export async function fetchVaultStructure(retries = 5, delayMs = 5000): Promise<VaultStructure> {
+  let lastError: Error | unknown;
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/notes/structure`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      lastError = err;
+      if (i < retries - 1) {
+        await new Promise(res => setTimeout(res, delayMs));
+      }
+    }
+  }
+  throw lastError;
 }
 
 export async function fetchNotes(
