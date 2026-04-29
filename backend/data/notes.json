@@ -88,17 +88,6 @@
     "created_at": "2026-04-29 15:50:07.008686"
   },
   {
-    "id": "twitter_where-do-you-get-your-dopamine_where-do-you-get-your-dopamine",
-    "title": "Where do you get your dopamine",
-    "content": "**Where I currently get dopamine**\nPornography\nScrolling\nJunk food\n==Sports==\n==Workouts==\nWatching videos during meals\n==Work==\n\n**Where I want to get my dopamine**\n==Sports==\n==Workouts==\nReading\nWalking in nature\nBeing in silence\nMeditating\nWriting/journaling \nTalking to people\n==Deep work==\nCreative work",
-    "category": "Twitter",
-    "book": "Where do you get your dopamine",
-    "file_path": "Twitter/Where do you get your dopamine.md",
-    "links": [],
-    "word_count": 41,
-    "created_at": "2026-04-29 15:50:07.008839"
-  },
-  {
     "id": "twitter_prompt-break-project-into-atomic-sprints-and-tasks_prompt-break-project-_6819166b",
     "title": "Prompt – Break Project into Atomic Sprints and Tasks",
     "content": "@docs/spec.md  \nIf you were to break this project down into sprints and tasks, how would you do it (timeline info does not need to be included and does not matter)? Every task/ticket should be an atomic, committable piece of work with tests (and if tests do not make sense, another form of validation that it was completed successfully). Every sprint should result in a demoable piece of software that can be run, tested, and built on top of previous work/sprints. Be exhaustive, be clear, be technical, and always focus on small atomic tasks that compose into a clear goal for the sprint.\n\nOnce you are done, provide this prompt to a subagent to review your work and suggest improvements. When you are done reviewing the suggested improvements, write your tasks/tickets, sprint plans, etc. to a Markdown file.",
