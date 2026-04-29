@@ -153,6 +153,68 @@ export default function ExperiencePage() {
                 </div>
               </div>
             </div>
+
+            {/* QuantFi Experience */}
+            <div className="relative pl-8 border-l border-[rgba(255,255,255,0.1)] mt-12">
+              <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[var(--color-text-muted)]" />
+              <div className="card">
+                <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white mb-1">Operational Trader</h2>
+                    <p className="text-lg text-[var(--color-accent)] font-medium">QuantFi</p>
+                  </div>
+                  <span className="inline-block px-3 py-1 text-sm font-medium bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded text-[var(--color-text-secondary)]">
+                    November 2022 — May 2023
+                  </span>
+                </div>
+                <div className="mb-8">
+                  <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] font-bold mb-4 flex items-center gap-2">
+                    <Code className="w-4 h-4" /> Key Technical Responsibilities
+                  </h3>
+                  <ul className="space-y-3">
+                    <li className="text-[var(--color-text-secondary)] text-sm leading-relaxed flex items-start gap-3">
+                      <span className="text-[var(--color-accent)] mt-1.5">•</span>
+                      Developed and optimized ML-driven trading strategies (Random Forest, XGBoost, Neural Networks, walk-forward cross-validation) in Python, achieving a steady 5% lift in daily PnL through backtesting, tick-level feature engineering, and short-term volatility forecasting.
+                    </li>
+                    <li className="text-[var(--color-text-secondary)] text-sm leading-relaxed flex items-start gap-3">
+                      <span className="text-[var(--color-accent)] mt-1.5">•</span>
+                      Automated the end-to-end model pipeline, from SQL/Python data ingestion and retraining to daily forecast publishing and Matplotlib performance dashboards, significantly reducing manual prep time.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Teaching Assistant Experience */}
+            <div className="relative pl-8 border-l border-[rgba(255,255,255,0.1)] mt-12">
+              <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[var(--color-text-muted)]" />
+              <div className="card">
+                <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white mb-1">Teaching Assistant</h2>
+                    <p className="text-lg text-[var(--color-accent)] font-medium">Vrije Universiteit Amsterdam</p>
+                  </div>
+                  <span className="inline-block px-3 py-1 text-sm font-medium bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded text-[var(--color-text-secondary)]">
+                    June 2022 — November 2024
+                  </span>
+                </div>
+                <div className="mb-8">
+                  <h3 className="text-sm uppercase tracking-wider text-[var(--color-text-muted)] font-bold mb-4 flex items-center gap-2">
+                    <Briefcase className="w-4 h-4" /> Key Responsibilities
+                  </h3>
+                  <ul className="space-y-3">
+                    <li className="text-[var(--color-text-secondary)] text-sm leading-relaxed flex items-start gap-3">
+                      <span className="text-[var(--color-accent)] mt-1.5">•</span>
+                      Taught weekly Probability Theory tutorials for first-year students, developing collaborative teaching methods and educational materials alongside faculty to explain complex statistical and mathematical concepts.
+                    </li>
+                    <li className="text-[var(--color-text-secondary)] text-sm leading-relaxed flex items-start gap-3">
+                      <span className="text-[var(--color-accent)] mt-1.5">•</span>
+                      Built a student portfolio system for first-year Econometrics students to ease university transition, and represented the Bachelor programme at Open Days and promotional events.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

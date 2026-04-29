@@ -73,7 +73,7 @@ export default function Home() {
             <span className="text-white font-bold tracking-tight">Francesco Cavina</span>
           </h1>
           <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-6 font-light">
-            AI Engineer & Data Engineering Intern | MSc AI Applicant @ UvA
+            Data & AI Platform Engineer
           </p>
 
           {/* Introduction */}

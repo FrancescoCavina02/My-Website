@@ -159,3 +159,7 @@ Thumbs.db
 *.log
 backend/data/
 frontend/public/images/profile.jpg
+CV.pdf
+Grade list from VuNet.pdf
+Motivation Letter Francesco Cavina.pdf
+frontend/app/contact/page.tsx

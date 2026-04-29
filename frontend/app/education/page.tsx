@@ -19,33 +19,43 @@ export default function EducationPage() {
           {/* Timeline */}
           <div className="space-y-8 animate-fade-in-up">
             <TimelineItem
-              year="Expected 2024"
-              title="BSc in Computer Science"
-              institution="[FILL IN University Name], [FILL IN Location]"
-              description="Final year Bachelor's student focusing on artificial intelligence, data structures, and software engineering principles."
+              year="2024"
+              title="BSc in Econometrics and Data Science"
+              institution="Vrije Universiteit Amsterdam, Amsterdam, Netherlands"
+              description="Completed Bachelor's degree with a focus on statistical modelling, data analysis, and econometrics. Thesis explored alternative mathematical frameworks for probability theory."
               highlights={[
-                "Current GPA: [FILL IN] / [FILL IN Max GPA]",
-                "Thesis Topic: [FILL IN Thesis Topic or remove this line]",
+                "GPA: 7.8 / 10",
+                "Thesis: Nonstandard Probabilities in an Internal Probability Space (Grade: 8.5 / 10)",
               ]}
-              current
             />
-
-            {/* High School omitted intentionally per common European Master's application standard, but can be added here if requested */}
+            
+            <TimelineItem
+              year="2024"
+              title="Pure Mathematics Minor"
+              institution="University of Leeds, Leeds, England"
+              description="Exchange semester focused on advanced pure mathematics, rigorous proofs, and foundational concepts."
+              highlights={[
+                "GPA: 8.5 / 10",
+              ]}
+            />
           </div>
 
           {/* Relevant Coursework */}
           <div className="mt-16 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
             <h2 className="text-xl font-semibold mb-6 text-white border-b border-[rgba(255,255,255,0.05)] pb-3">
-              Relevant AI & Math Coursework
+              Relevant Coursework
             </h2>
             <div className="flex flex-wrap gap-3">
               {[
-                "Machine Learning",
-                "Natural Language Processing",
-                "Computer Vision",
+                "Data Science Methods",
+                "Data Structures and Algorithms",
+                "Econometrics I, II & III",
+                "Multivariate Statistics",
                 "Linear Algebra",
-                "Statistics & Probability",
-                "Algorithms & Data Structures",
+                "Analysis I & II",
+                "Probability and Inference",
+                "Logic and Sets for CS",
+                "Numerical Methods",
               ].map((course) => (
                 <span
                   key={course}
@@ -57,26 +67,7 @@ export default function EducationPage() {
             </div>
           </div>
 
-          {/* Certifications (Optional) */}
-          <div className="mt-16 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-            <h2 className="text-xl font-semibold mb-6 text-white border-b border-[rgba(255,255,255,0.05)] pb-3">
-              Certifications & Extras
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <CertificationCard
-                title="[FILL IN Certification Name]"
-                provider="[FILL IN Provider (e.g., Coursera)]"
-                year="2023"
-                url="#"
-              />
-              {/* Delete this second card or fill it */}
-              <CertificationCard
-                title="[FILL IN Certification Name]"
-                provider="[FILL IN Provider]"
-                year="2022"
-              />
-            </div>
-          </div>
+
         </div>
       </section>
     </div>

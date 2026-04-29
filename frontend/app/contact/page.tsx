@@ -79,17 +79,17 @@ export default function ContactPage() {
 
               <div className="space-y-4">
                 <a
-                  href="mailto:[FILL IN Email Address]"
+                  href="mailto:f.cavi2002@gmail.com"
                   className="flex items-center gap-4 text-[var(--color-text-secondary)] hover:text-white group transition-colors"
                 >
                   <div className="w-10 h-10 rounded-full border border-[rgba(255,255,255,0.1)] flex items-center justify-center group-hover:border-[var(--color-accent)] group-hover:bg-[rgba(14,165,233,0.1)] transition-colors">
                     <Mail className="w-4 h-4 group-hover:text-[var(--color-accent)]" />
                   </div>
-                  <span className="font-medium">[FILL IN Email Address]</span>
+                  <span className="font-medium">f.cavi2002@gmail.com</span>
                 </a>
 
                 <a
-                  href="https://linkedin.com/in/francescocavina"
+                  href="https://www.linkedin.com/in/francesco-cavina-8a7440145/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 text-[var(--color-text-secondary)] hover:text-white group transition-colors"

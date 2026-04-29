@@ -23,9 +23,9 @@ export default function AboutPage() {
               </h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)]">
                 <p className="mb-4 leading-relaxed font-light">
-                  I&apos;m a Computer Science student based in Amsterdam, passionate about building
+                  I hold a BSc in Econometrics and Data Science from Vrije Universiteit Amsterdam, and I am passionate about building
                   intelligent systems that sit at the intersection of AI, philosophy, and human
-                  experience. I have developed a strong proficiency in Python and full-stack
+                  experience. I have developed a strong proficiency in Python, machine learning, and full-stack
                   development, with an increasing focus on Natural Language Processing and reasoning
                   systems.
                 </p>
@@ -82,6 +82,7 @@ export default function AboutPage() {
                     <span className="tag">Next.js</span>
                     <span className="tag">React</span>
                     <span className="tag">Tailwind CSS</span>
+                    <span className="tag">PySpark</span>
                   </div>
                 </div>
                 <div>
@@ -91,8 +92,10 @@ export default function AboutPage() {
                   <div className="flex flex-wrap gap-2">
                     <span className="tag">Git</span>
                     <span className="tag">Docker</span>
-                    <span className="tag">Obsidian</span>
-                    <span className="tag">Render</span>
+                    <span className="tag">Kubernetes</span>
+                    <span className="tag">Terraform</span>
+                    <span className="tag">Azure</span>
+                    <span className="tag">Databricks</span>
                   </div>
                 </div>
               </div>
@@ -106,10 +109,7 @@ export default function AboutPage() {
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light leading-relaxed">
                 <p>
                   Beyond code, I&apos;m drawn to questions at the intersection of philosophy,
-                  consciousness, and AI. I practice pottery as a form of mindful making, run
-                  regularly, and play dodgeball competitively. I read widely to inform my worldview
-                  and my work — drawing constantly from both classic Stoic philosophy and modern
-                  neuroscience.
+                  physics, and AI, such as the mathematical structure of our physical reality and the origins of the universe. I ran a podcast interviewing physicists and cosmologists about these topics. I also play dodgeball competitively and read widely to inform my worldview—drawing constantly from Stoic philosophy and modern neuroscience.
                 </p>
               </div>
             </div>
@@ -119,8 +119,8 @@ export default function AboutPage() {
               <h2 className="text-xl font-semibold mb-2 text-white">Currently</h2>
               <div className="prose prose-invert max-w-none text-[var(--color-text-secondary)] font-light">
                 <p>
-                  Finishing my BSc in Computer Science at [FILL IN University], building AI
-                  projects, and preparing my MSc AI application to the University of Amsterdam.
+                  Working as a Data & AI Platform Engineer at Robodata, building AI
+                  projects, and preparing my MSc application.
                 </p>
               </div>
             </div>

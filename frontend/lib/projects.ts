@@ -64,6 +64,24 @@ export const projects: Project[] = [
     liveUrl: "https://spiritualchatbot1.netlify.app/",
     featured: true,
   },
+  {
+    id: "podcasts",
+    title: "Independent Podcasts",
+    description: "Created and hosted two podcasts interviewing researchers on Physics, Cosmology, Mathematics, and Philosophy.",
+    category: "podcast",
+    technologies: ["Interviewing", "Audio Editing", "Research", "Content Creation"],
+    liveUrl: "https://www.youtube.com/@francescocavina5882",
+    featured: false,
+  },
+  {
+    id: "dodgeball-club",
+    title: "Dodgeball Club Amsterdam Website",
+    description: "Created and currently maintaining a dynamic and modern website for the Dodgeball Club Amsterdam.",
+    category: "web",
+    technologies: ["HTML", "JavaScript", "CSS"],
+    githubUrl: "https://github.com/FrancescoCavina02/DCA-website",
+    featured: false,
+  },
 ];
 
 export const categories = [
