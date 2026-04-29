@@ -157,7 +157,6 @@ Thumbs.db
 
 # Project specific
 *.log
-backend/data/
 frontend/public/images/profile.jpg
 CV.pdf
 Grade list from VuNet.pdf
