@@ -22,7 +22,9 @@ export default function NoteSlugPage() {
 
   useEffect(() => {
     if (!noteId) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setError(null);
     fetchNote(noteId)
       .then(setNote)

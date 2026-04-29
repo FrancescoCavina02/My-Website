@@ -3,6 +3,7 @@
 import React from 'react';
 import { Note } from '@/lib/api';
 import MarkdownRenderer from '@/components/notes/MarkdownRenderer';
+import Link from 'next/link';
 
 interface NoteViewerProps {
   note: Note;
@@ -83,7 +84,7 @@ export default function NoteViewer({ note, onNavigate, onWikiLinkClick }: NoteVi
 
       {/* ── Back to Notes fallback (root notes / direct URL access) ─────── */}
       {!nav?.parent && breadcrumbTrail.length === 0 && (
-        <a
+        <Link
           href="/notes"
           className="mb-4 flex items-center gap-2 text-sm transition-colors"
           style={{ color: 'var(--color-text-secondary)', textDecoration: 'none' }}
@@ -92,10 +93,10 @@ export default function NoteViewer({ note, onNavigate, onWikiLinkClick }: NoteVi
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M15 19l-7-7 7-7" />
+              d="M15 19l-7-7 7-7" />
           </svg>
           Back to Notes
-        </a>
+        </Link>
       )}
 
       {/* ── Back to parent link ─────────────────────────────────────────── */}
