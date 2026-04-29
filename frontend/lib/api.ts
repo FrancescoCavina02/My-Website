@@ -144,12 +144,29 @@ export interface BookTreeResponse {
 export async function fetchVaultStructure(retries = 5, delayMs = 5000): Promise<VaultStructure> {
   let lastError: Error | unknown;
   for (let i = 0; i < retries; i++) {
+    console.log(`[fetchVaultStructure] Attempt ${i + 1} of ${retries}`);
     try {
       const response = await fetch(`${API_BASE_URL}/api/notes/structure`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (!response.ok) {
+        if (response.status >= 400 && response.status < 500) {
+          const body = await response.text().catch(() => "Unreadable body");
+          throw new Error(`HTTP ${response.status} Client Error: ${body}`);
+        }
+        throw new Error(`HTTP ${response.status} Server Error`);
+      }
       return await response.json();
     } catch (err) {
+      console.error(`[fetchVaultStructure] Error on attempt ${i + 1}:`, err);
       lastError = err;
+      
+      const isClientError = err instanceof Error && err.message.includes("Client Error");
+      const isParseError = err instanceof SyntaxError || (err instanceof Error && err.message.includes("JSON"));
+      
+      if (isClientError || isParseError) {
+        console.error(`[fetchVaultStructure] Fatal error, stopping retries.`, err);
+        throw err;
+      }
+      
       if (i < retries - 1) {
         await new Promise(res => setTimeout(res, delayMs));
       }
@@ -283,4 +300,13 @@ export async function getBookTree(
   );
   if (!res.ok) throw new Error("Failed to fetch book tree");
   return res.json();
+}
+
+// Call this in your root layout or _app on mount to pre-warm Render
+export async function pingBackend(): Promise<void> {
+  try {
+    await fetch(`${API_BASE_URL}/health`);
+  } catch {
+    // Silently ignore — this is just a wake-up call
+  }
 }

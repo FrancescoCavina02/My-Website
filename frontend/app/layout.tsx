@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { BackendPinger } from "@/components/BackendPinger";
 
 export const metadata: Metadata = {
   title: "Francesco Cavina — AI & Data Engineering",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className="min-h-screen flex flex-col antialiased text-white bg-[#0e0e0f]"
         suppressHydrationWarning
       >
+        <BackendPinger />
         <ErrorBoundary>
           <Header />
           <main id="main-content" className="flex-grow" role="main">

@@ -150,10 +150,9 @@ export default function NotesPage() {
         setStructure(data);
         setLoading(false);
       })
-      .catch(() => {
-        setError(
-          "Notes are synced from my personal Obsidian vault. The backend is waking up — refresh in 30 seconds."
-        );
+      .catch((err) => {
+        console.error("fetchVaultStructure failed:", err);
+        setError(`Failed to load notes: ${err?.message || err}`);
         setLoading(false);
       });
   }, []);
